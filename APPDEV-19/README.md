@@ -1,21 +1,45 @@
-# After completing APPDEV-11 do the following:
+# Assignment 3: Adding tabs
+Continue building on what you have made in APPDEV-14
 
-First read: introduction to activities and activity life-cycle (APPDEV-11)
+## Reading materials
+- User interface and & navigation
+  - Layouts --> create a list with recyclerview (usage of adapters)
+  - Look and feel  
+    - In depth: styles and themes, floating action button buttons
+    - Quickly checkout: checkboxes, radio buttons, toggle,spinners. 
+  - Notifications
+     - Create a notification 
+     - *other topics not needed*
+  - Slide between fragments with the viewpager
+- Background tasks
+  - Background operations overview
+  - Specifiying the code to run on a thread
+  - *other topics not needed*
+- Connectivity
+  - Transmitting Network data using volley
+    - Sending a simple Request
+    - Additional: https://www.itsalif.info/content/android-volley-tutorial-http-get-post-put
+    - *other topics not needed*
 
-## Make an app with the following components
-Main activity with the following GUI elements: one button called 'email WP office 'and one button called 'Call WP office' as label.
-EmailWPActivity; empty activity
-CallWPActivity; empty activity
-One single fragment called 'ClickToContinueFragment' with the following GUI element: one button with 'placeholder' as label.
+## New app components
+- Tab infrastructure. 
+  - One tab points to what was MainAcitivy and is called 'Contact Wolfpack' (convert to Fragment and make new MainActivity) [viewpager]
+  - Second tab is called 'Shout!'. This Fragment shows a List of possible shoutouts that can be posted to our Slack channel.  [recyclerview] 
 
-## The app has to be able to do the following things: (requirements)
-When you click on 'email WP office' a new activity is started with a button saying 'mail now' When you click the button You will see the default android 'intent chooser' which asks you which email client to use. When you select, a prefilled email is openend with title: 'HELLO WORLD' and content 'I did it, greetings [insertnamehere] to rene.le.clercq@wolfpackit.nl'
-When you click on 'call WP office' a new activity is started with a button saying 'call now'. After which you again use 'intent filter' to start the phone dialing options, with predialed 040-782 0814
+## New app requirements
+- When clicking on one of the Shout List items, a background task ensures the shout is send through the API of Slack and posted in our random channel [background tasks]
+- Inform the user using toasts of succes/fail of this task
+- Sending the message to the slack API is a simple POST call implementation [connectivity]
+- Choose your own shouts like 'I want coffee NOW'
+- When email is succesfully sent (check the callback by the email intent) A notification (in the notificationbar) has to be posted saying 'Sent an picture to Rene!' [notifications]
+- Change the colorscheme of the app to your choice BUT using the correct styling and themeing options.
+- Use the debugger to place breakpoints when testing the app. play around with it!
+- Don't forget the appropriate permiissions
 
-## Take in mind:
-Please refer to the topics 'parcelables and bundles', ' fragments' and 'interact with other apps' for help. 
-Since the fragment you use is generic (same fragment for both actions) you need to have some sort of data passed through' to the fragment about which was the calller (email or call button). You are not allowed to hardcode this. Please use 'parcables and bundles' for this.
-Correctly use onCreate, onViewCreated, onStart etc. (see 'activity lifecycle')
-Best to run on your phone to actually send the email or place the call. Emulator is not able to do that.
+**Contents for slack post**  
+url = 'https://hooks.slack.com/services/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'  
+headers = {'Content-Type': 'application/json'}  
+payload = {"text": "{ENTER HIER DE SHOUT}"}  
 
-**Done when I receive a phonecall and email.**
+**Done when I receive an email and post displays in Slack**
+
