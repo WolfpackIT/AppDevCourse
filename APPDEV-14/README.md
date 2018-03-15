@@ -1,21 +1,36 @@
-# After completing APPDEV-11 do the following:
+# Assignment 2: Mailing a pictue
+Continue building on what you have made in APPDEV-12
 
-First read: introduction to activities and activity life-cycle (APPDEV-11)
+## Reading materials
+- App Data & Files
+  - storage overview
+  - Save files on Device storage
+  - Save key-value data
+  - *other topics not needed*
+- Camera
+  - Taking photos
+- User interface and navigation
+  - Toasts
+  - *other topics not needed*
+- Touch & input
+  - input Events
 
-## Make an app with the following components
-Main activity with the following GUI elements: one button called 'email WP office 'and one button called 'Call WP office' as label.
-EmailWPActivity; empty activity
-CallWPActivity; empty activity
-One single fragment called 'ClickToContinueFragment' with the following GUI element: one button with 'placeholder' as label.
+## New app components
+- New button with text 'Take picture' on the MainActivity
+- New EditText on the MainActivity
 
-## The app has to be able to do the following things: (requirements)
-When you click on 'email WP office' a new activity is started with a button saying 'mail now' When you click the button You will see the default android 'intent chooser' which asks you which email client to use. When you select, a prefilled email is openend with title: 'HELLO WORLD' and content 'I did it, greetings [insertnamehere] to rene.le.clercq@wolfpackit.nl'
-When you click on 'call WP office' a new activity is started with a button saying 'call now'. After which you again use 'intent filter' to start the phone dialing options, with predialed 040-782 0814
+## New app requirements
+- Overall goal: include a picture in the email, and some preferences should be stored.
+- User should insert his/her name in the textfield before continuing to email. [input events]
+- The call and mail button are greyed out until you successfully took a picture and entered a name in the EditText [camera] 
+- Picture should be stored to internal memory.  [app data and files] 
+- Provide user with feedback. For instance when clicking on buttons which are disabled, or when taking a picture goes wrong (handling errors). [toasts]
+- When user restarts the app, the previous entered name should be pre-inserted in the edittext [Save key-value data]
+- Attach the photo to the email (from internal storage)
 
 ## Take in mind:
-Please refer to the topics 'parcelables and bundles', ' fragments' and 'interact with other apps' for help. 
-Since the fragment you use is generic (same fragment for both actions) you need to have some sort of data passed through' to the fragment about which was the calller (email or call button). You are not allowed to hardcode this. Please use 'parcables and bundles' for this.
-Correctly use onCreate, onViewCreated, onStart etc. (see 'activity lifecycle')
-Best to run on your phone to actually send the email or place the call. Emulator is not able to do that.
+- The photo intent has a callback, the succes callback needs to enable the buttons. You can alter the button.enabled property for this. Only when picture is taken successfully!
+- Use the 'Toast' infrastructure to give user feedback. 
+- Be aware of storage issues and permissions! (read Permissions if needed: https://developer.android.com/guide/topics/permissions/index.html)
 
-**Done when I receive a phonecall and email.**
+**Done when René receives an email**
