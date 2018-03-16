@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EmailWolfpack</string>
+    <string name="email_button">email WP office</string>
+    <string name="call_button">Call WP office</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="placeholder_text">placeholder</string>
+    <string name="mail_now_text">mail now</string>
+    <string name="wolfpack_phone_number">+310407820814</string>
+    <string name="take_picture_button">Take Picture</string>
+    <string name="button_disabled_error">You have to take a picture before continuing with this action.</string>
+    <string name="name_hint">Name</string>
+</resources>
