@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">APPDEV12</string>
+    <string name="email">email WP office</string>
+    <string name="call">call WP office</string>
+    <string name="picture">Take picture</string>
+    <string name="name">Name</string>
+
+    <string name="buttonDisabled">Please take a picture and insert a name first</string>
+</resources>
