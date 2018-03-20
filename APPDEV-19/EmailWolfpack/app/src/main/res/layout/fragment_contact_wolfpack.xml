@@ -17,6 +17,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
+        android:background="@color/warmSun"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"

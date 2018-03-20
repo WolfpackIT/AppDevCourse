@@ -41,6 +41,7 @@ public class ContactWolfpackFragment extends Fragment {
 
     private Button emailButton;
     private Button callButton;
+    private Button takePictureButton;
 
     private SharedPreferences sharedPreferences;
     private final String MY_PREFRENCES = "MY_PREFRENCES";
@@ -77,9 +78,37 @@ public class ContactWolfpackFragment extends Fragment {
 
         callButton = (Button) view.findViewById(R.id.buttonCall);
         callButton.setEnabled(false);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CallWPActivity.class);
+                startActivity(intent);
+            }
+        });
 
         emailButton = (Button) view.findViewById(R.id.buttonEmail);
         emailButton.setEnabled(false);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), EmailWPActivity.class);
+                intent.putExtra("photoPath", mCurrentPhotoPath);
+                startActivity(intent);
+            }
+        });
+
+
+        takePictureButton = (Button) view.findViewById(R.id.buttonTakePicture);
+        takePictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+                } else {
+                    startCameraActivity();
+                }
+            }
+        });
 
         sharedPreferences = this.getActivity().getSharedPreferences(MY_PREFRENCES, Context.MODE_PRIVATE);
 
@@ -103,8 +132,11 @@ public class ContactWolfpackFragment extends Fragment {
 
                 if(charSequence.length() > 0 && photo != null) {
                     emailButton.setEnabled(true);
+                    callButton.setEnabled(true);
                 } else {
                     emailButton.setEnabled(false);
+                    callButton.setEnabled(false);
+
                 }
 
                 myPrefrencesEditor.putString(MY_PREFERENCES_NAME, charSequence.toString());
@@ -115,18 +147,6 @@ public class ContactWolfpackFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-    }
-
-
-    public void onClickCall(View view) {
-        Intent intent = new Intent(getContext(), CallWPActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickEmail(View view) {
-        Intent intent = new Intent(getContext(), EmailWPActivity.class);
-        intent.putExtra("photoPath", mCurrentPhotoPath);
-        startActivity(intent);
     }
 
     private void startCameraActivity() {
@@ -148,14 +168,6 @@ public class ContactWolfpackFragment extends Fragment {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
-        }
-    }
-
-    public void onClickCamera(View view) {
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-        } else {
-            startCameraActivity();
         }
     }
 
@@ -192,6 +204,7 @@ public class ContactWolfpackFragment extends Fragment {
         if(requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             if(name.length() > 0) {
                 emailButton.setEnabled(true);
+                callButton.setEnabled(true);
             }
             Toast.makeText(getContext(), "Picture taken!", Toast.LENGTH_SHORT).show();
         }

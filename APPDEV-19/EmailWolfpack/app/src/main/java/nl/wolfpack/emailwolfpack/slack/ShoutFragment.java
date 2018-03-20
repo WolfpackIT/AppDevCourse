@@ -7,15 +7,23 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +34,52 @@ public class ShoutFragment extends Fragment {
     RecyclerView recyclerView;
     ShoutsAdapter shoutsAdapter;
 
+    final String SLACK_URL = "https://hooks.slack.com/services/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";
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shouts = new ArrayList<>();
+    }
+
+    private JsonObjectRequest sendSlackMessage(final String shout) {
+        JSONObject jsonBodyObj = new JSONObject();
+        try{
+            jsonBodyObj.put("text", shout);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        final String requestBody = jsonBodyObj.toString();
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                SLACK_URL,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VolleyError", error.getMessage());
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        };
+
+        return request;
     }
 
     @Nullable
@@ -42,10 +92,42 @@ public class ShoutFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        String shout = shouts.get(position);
+                    @Override public void onItemClick(View view, final int position) {
                         RequestQueue queue = Volley.newRequestQueue(getContext());
+                        JSONObject jsonBodyObj = new JSONObject();
+                        String url = "https://hooks.slack.com/services/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";
+                        try{
+                            jsonBodyObj.put("text", shouts.get(position));
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                        final String requestBody = jsonBodyObj.toString();
 
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                                url, null, new Response.Listener<JSONObject>(){
+                            @Override    public void onResponse(JSONObject response) {
+                                Log.i("Response",String.valueOf(response));
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override    public void onErrorResponse(VolleyError error) {
+                                VolleyLog.e("Error: ", error.getMessage());
+                            }
+                        }){
+                            @Override
+                            public byte[] getBody() {
+                                try {
+                                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                                } catch (UnsupportedEncodingException uee) {
+                                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                            requestBody, "utf-8");
+                                    return null;
+                                }
+                            }
+
+
+                        };
+
+                        queue.add(jsonObjectRequest);
                     }
 
                     @Override
