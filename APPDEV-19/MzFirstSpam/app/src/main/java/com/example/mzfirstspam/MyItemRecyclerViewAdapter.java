@@ -52,7 +52,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
             @Override
             public void onClick(View view) {
-                Snackbar snackbar = Snackbar.make(view, "Not supported"+shout.getText().toString(), 1000);
+                Snackbar snackbar = Snackbar.make(view, "send: "+shout.getText().toString()+" to general slack ", 1000);
                 snackbar.show();
 
                 final String BR = shout.getText().toString();

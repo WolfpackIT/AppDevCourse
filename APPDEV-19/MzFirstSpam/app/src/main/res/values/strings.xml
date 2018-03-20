@@ -8,6 +8,8 @@
     <string name="takePic">Take picture</string>
     <string name="main">Main</string>
     <string name="shouts">Shouts</string>
+    <string name="channel_name">500A</string>
+    <string name="channel_description">Description of channel 500A</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="placeholder">placeholder</string>
