@@ -1,18 +1,18 @@
 package com.example.mzfirstspam;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnItemTouchListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.mzfirstspam.dummy.DummyContent;
-import com.example.mzfirstspam.dummy.DummyContent.DummyItem;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,24 +34,30 @@ public class ListFragment extends Fragment {
         Log.d("debugMode", "The application stopped after this");
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
         String[] shouts = new String[myShouts.size()];
         myShouts.toArray(shouts); // fill the array
 
-        mAdapter = new MyItemRecyclerViewAdapter(shouts);
+        mAdapter = new MyItemRecyclerViewAdapter(shouts, getContext());
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       myShouts.add("Lekker Eddy!");
+        myShouts.add("Lekker Eddy!");
         myShouts.add("Fooood");
         myShouts.add("www.ishetaltijdvoorbier.nl");
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+    }
 }
