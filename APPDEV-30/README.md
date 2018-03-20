@@ -1,45 +1,30 @@
-# Assignment 3: Adding tabs
-Continue building on what you have made in APPDEV-14
+# Assignment 5: Adding Wiggle
+Continue building on what you have made in APPDEV-26
 
 ## Reading materials
-- User interface and & navigation
-  - Layouts --> create a list with recyclerview (usage of adapters)
-  - Look and feel  
-    - In depth: styles and themes, floating action button buttons
-    - Quickly checkout: checkboxes, radio buttons, toggle,spinners. 
-  - Notifications
-     - Create a notification 
-     - *other topics not needed*
-  - Slide between fragments with the viewpager
+- Sensors
+  - Sensors overview
+  - Motion sensor
 - Background tasks
-  - Background operations overview
-  - Specifiying the code to run on a thread
-  - *other topics not needed*
-- Connectivity
-  - Transmitting Network data using volley
-    - Sending a simple Request
-    - Additional: https://www.itsalif.info/content/android-volley-tutorial-http-get-post-put
-    - *other topics not needed*
+  - Services (all subtopics)
 
 ## New app components
-- Tab infrastructure. 
-  - One tab points to what was MainAcitivy and is called 'Contact Wolfpack' (convert to Fragment and make new MainActivity) [viewpager]
-  - Second tab is called 'Shout!'. This Fragment shows a List of possible shoutouts that can be posted to our Slack channel.  [recyclerview] 
+- New tab 'Wiggle Wiggle' with new fragment
+- App should be able to set a service that in the background monitors when you wiggle your phone, then shows notification.
 
 ## New app requirements
-- When clicking on one of the Shout List items, a background task ensures the shout is send through the API of Slack and posted in our random channel [background tasks]
-- Inform the user using toasts of succes/fail of this task
-- Sending the message to the slack API is a simple POST call implementation [connectivity]
-- Choose your own shouts like 'I want coffee NOW'
-- When email is succesfully sent (check the callback by the email intent) A notification (in the notificationbar) has to be posted saying 'Sent an picture to Rene!' [notifications]
-- Change the colorscheme of the app to your choice BUT using the correct styling and themeing options.
+- The wiggle tab shows **Appbar** action 'set wiggle'. Furthermore the tab shows if the service is set and running or not. (choose your own GUI elements) [look & feel] [app bar] [services]
+- Use a service that runs in the background an monitors the motion sensors of the device. If you wiggle the phone, a notifications should be send to the notification centre. [sensors]
+- Define your own 'algorithm' to detect wiggling. make your own thresholds.
+- The app AUTOMATICALLY shows a notification 'Everything ok? ' every time you wiggle the phone,
+- Bonus: make GUI elements to make the wiggle algorithm as customization as possible .
 - Use the debugger to place breakpoints when testing the app. play around with it!
-- Don't forget the appropriate permiissions
+- Don't forget to use themes and styles correctly!
 
 **Contents for slack post**  
 url = 'https://hooks.slack.com/services/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'  
 headers = {'Content-Type': 'application/json'}  
 payload = {"text": "{ENTER HIER DE SHOUT}"}  
 
-**Done when I receive an email and post displays in Slack**
+**Done when you show René the function**
 
