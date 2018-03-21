@@ -4,12 +4,14 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -46,11 +48,16 @@ public class GeofencingFragment extends Fragment {
     Double currentLattitude;
     Double currentLongitude;
     List<Location> fencingList = new ArrayList<>();
+    LocationManager mLocationManager;
+    String provider;
+    boolean locationpermitted;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        provider = mLocationManager.getBestProvider(new Criteria(), false);
+        checkLocationPermission();
     }
 
     @Override
@@ -96,21 +103,30 @@ public class GeofencingFragment extends Fragment {
 
     public void locationAction(View view) {
         Log.d("locMngr", "reached");
-        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
 
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//
+//
+//
+//            return;
+//        }
+        mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        if(checkLocationPermission() == false){
+            Log.d("LocPer", "no location acces");
+            Snackbar bar = Snackbar.make(getView(), "please give us location access or this function will not be available", 1000);
+            return;
         }
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-        Location loc = new Location("fence"+fencingList.size());
+        mLocationManager.requestLocationUpdates(provider, 0, 0, mLocationListener);
+        Location loc = mLocationManager.getLastKnownLocation(provider);
 
         String CHANNEL_ID = "400A";
 
@@ -129,30 +145,25 @@ public class GeofencingFragment extends Fragment {
 
     public void setFence(View view){
         Log.d("fencemgr", "reached");
-        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
+        mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        if(checkLocationPermission() == false){
+            Log.d("LocPer", "no location acces");
+            Snackbar bar = Snackbar.make(getView(), "please give us location access or this function will not be available", 1000);
+            return;
         }
-        mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-        Location loc = new Location("fence"+fencingList.size());
-        loc.setLatitude(currentLattitude);
-        loc.setLongitude(currentLongitude);
-        fencingList.add(loc);
+
+        mLocationManager.requestLocationUpdates(provider, 0, 0, mLocationListener);
+        Location loc = mLocationManager.getLastKnownLocation(provider);
+//        loc.setLatitude(currentLattitude);
+//        loc.setLongitude(currentLongitude);
+//        fencingList.add(loc);
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            Double currentLattitude = location.getLatitude();
-            Double currentLongitude = location.getLongitude();
+            currentLattitude = location.getLatitude();
+            currentLongitude = location.getLongitude();
         }
 
         @Override
@@ -170,21 +181,22 @@ public class GeofencingFragment extends Fragment {
             Log.d("Latitude","status");
         }
     };
+
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(getActivity())
                         .setTitle("test tittle")
                         .setMessage("test string")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -202,7 +214,7 @@ public class GeofencingFragment extends Fragment {
 
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
@@ -230,7 +242,7 @@ public class GeofencingFragment extends Fragment {
                         //Request location updates:
 
                         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-                        locationManager.requestLocationUpdates(com.example.android.location_provider, 400, 1, this);
+                        locationManager.requestLocationUpdates(provider, 400, 1, (LocationListener) this);
                     }
 
                 } else {
