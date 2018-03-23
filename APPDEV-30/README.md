@@ -21,10 +21,5 @@ Continue building on what you have made in APPDEV-26
 - Use the debugger to place breakpoints when testing the app. play around with it!
 - Don't forget to use themes and styles correctly!
 
-**Contents for slack post**  
-url = 'https://hooks.slack.com/services/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'  
-headers = {'Content-Type': 'application/json'}  
-payload = {"text": "{ENTER HIER DE SHOUT}"}  
-
 **Done when you show René the function**
 
