@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import nl.wolfpack.emailwolfpack.geofence.GeoFenceFragment;
 import nl.wolfpack.emailwolfpack.slack.ShoutFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -18,12 +19,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: {
-                ContactWolfpackFragment contactWolfpackFragment = new ContactWolfpackFragment();
-                return contactWolfpackFragment;
+                return new ContactWolfpackFragment();
             }
             case 1: {
-                ShoutFragment shoutsTab = new ShoutFragment();
-                return shoutsTab;
+                return new ShoutFragment();
+            }
+            case 2: {
+                return new GeoFenceFragment();
             }
             default:
                 return null;

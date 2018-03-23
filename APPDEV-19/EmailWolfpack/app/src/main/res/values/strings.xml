@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EmailWolfpack</string>
+    <string name="app_name">Wolfpack</string>
     <string name="email_button">email WP office</string>
     <string name="call_button">Call WP office</string>
 
@@ -11,4 +11,8 @@
     <string name="take_picture_button">Take Picture</string>
     <string name="button_disabled_error">You have to take a picture before continuing with this action.</string>
     <string name="name_hint">Name</string>
+    <string name="set_fence">Set Fence</string>
+    <string name="get_location">Get Location</string>
+    <string name="channel_name">Wolfpack Notifications</string>
+    <string name="channel_description">Notification for when you are nearby Wolfpack office</string>
 </resources>
