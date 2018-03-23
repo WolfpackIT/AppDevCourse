@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Modified_Theme" parent="Theme.AppCompat">
+        <item name="android:navigationBarColor">@color/colorSomething</item>
+    </style>
+
+    <style name="Theme" parent="android:Theme.Material.Light" />
+</resources>

@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Wolfpack</string>
+    <string name="email">email WP office</string>
+    <string name="call">call WP office</string>
+    <string name="picture">Take picture</string>
+    <string name="name">Name</string>
+
+    <string name="getLocation">Get Location</string>
+    <string name="setFence">Add Fence</string>
+    <string name="fences">Fences</string>
+    <string name="fenceNamePlaceholder">Fence Name</string>
+
+    <string name="phoneNumber">040-782 0814</string>
+
+
+    <string name="locationServiceNotificationTitle">geolistener started</string>
+    <string name="locationServiceNotificationText">Wolfpack geolistener started</string>
+
+    <string name="inRangeNotificationTitle">welcome @ Woflpack</string>
+    <string name="inRangeNotificationText">you are in range of Wolfpack</string>
+    <string name="inRangeNotificationTextExpanded">
+        you are in range of Wolfpack\n
+        latitude: [lat]\n
+        longitude: [long]\n
+        altitude: [alt]\n
+        speed: [speed]\n
+        accuracy: [acc]
+    </string>
+    <string name="inRangeNotificationButton">shouts</string>
+    <string name="inRangeNotificationArchiveButton">archive</string>
+
+    <string name="addFenceTitle">Add Fence</string>
+    <string name="addFenceText">Please enter a fence name</string>
+    <string name="addFenceConfirm">Ok</string>
+    <string name="addFenceCancel">Cancel</string>
+
+    <string name="getLocationTitle">Location</string>
+    <string name="getLocationText">[long] , [lat]</string>
+
+    <string name="tabNames">Contact,Shout!,Geofence</string>
+
+    <string name="buttonDisabled">Please take a picture and insert a name first</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="channel_name">wolfpacks_notification_channel</string>
+    <string name="channel_description">description</string>
+
+    <string name="shoutSuccessNotifcationTitle">Shout sent</string>
+    <string name="shoutSuccessNotifcationBody">\"[shout]\" was sent</string>
+    <string name="shoutFailNotifcationTitle">Shout not sent</string>
+    <string name="shoutFailNotifcationBody">was not able to sent \"[shout]\"</string>
+
+    <string name="mailSuccessNotifcationTitle">mail sent</string>
+    <string name="mailSuccessNotifcationBody">Sent an picture to Rene!</string>
+    probably
+    <string name="mailFailNotifcationTitle">mail not sent</string>
+    <string name="mailFailNotifcationBody">Your mail has not been sent</string>
+
+    <string name="shouts">test,something,peanutbutter,othershouts,words,I want coffee NOW</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
+
