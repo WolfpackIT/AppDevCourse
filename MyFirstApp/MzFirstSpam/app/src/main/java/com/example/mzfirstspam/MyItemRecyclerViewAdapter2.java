@@ -75,7 +75,9 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Location shout = shouts[position];
-        holder.shout.setText( shout.toString());
+        String a = String.valueOf(shout.getLongitude());
+        String b = String.valueOf(shout.getLatitude());
+        holder.shout.setText(a+"  "+b);
     }
 
     @Override

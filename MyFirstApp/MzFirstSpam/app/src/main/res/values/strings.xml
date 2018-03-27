@@ -12,7 +12,10 @@
     <string name="channel_description">Description of channel 500A</string>
     <string name="fence">Set fence</string>
     <string name="GLocation">Get location</string>
-
+    <string name="latList"></string>
+    <string name="longlist"></string>
+    <string name="latdef">0</string>
+    <string name="londef">0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="placeholder">placeholder</string>
 

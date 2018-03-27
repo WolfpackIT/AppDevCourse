@@ -1,11 +1,12 @@
 package com.example.mzfirstspam;
 
 import android.Manifest;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 //import android.location.Location;
@@ -43,8 +45,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationRequest;
-
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -57,13 +62,12 @@ public class GeofencingFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<Geofence> fenceList;
-    ArrayList<Location> locList;
-    FenceDB db = Room.databaseBuilder(getActivity().getApplicationContext(),
-            FenceDB.class, "fence").build();
+    ArrayList<Geofence> fenceList = new ArrayList<Geofence>();
+    ArrayList<Location> locList = new ArrayList<Location>();
+    Location[] arrLoc;
+    PendingIntent mGeofencePendingIntent = null;
+    private GeofencingClient mGeofencingClient;
 
-
-    //private LocationListener mLocationListener;
     Double currentLattitude;
     Double currentLongitude;
     String provider;
@@ -76,14 +80,34 @@ public class GeofencingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d("xxx", "onCreate: "+db.fenceDao().getAll());
+        mGeofencingClient = LocationServices.getGeofencingClient(getContext());
 
 
         LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         provider = mLocationManager.getBestProvider(new Criteria(), false);
         checkLocationPermission();
+        if(!mLocationManager.isProviderEnabled(provider)) {
+            Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsIntent);
+        }
     }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+        Intent intent = new Intent(getContext(), GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        mGeofencePendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        return mGeofencePendingIntent;
+    }
+
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,17 +115,46 @@ public class GeofencingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_geofencing, container, false);
 
-
-
-
         mRecyclerView = /** (RecyclerView) **/view.findViewById(R.id.FencingList);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
-        Log.d("debugMode", "The application stopped after this");
+        //Log.d("debugMode", "The application stopped after this");
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String lad = getResources().getString(R.string.latdef);
+        String lat = sharedPref.getString(getString(R.string.latList), lad);
 
-        Location[] arrLoc = locList.toArray(new Location[locList.size()]);
+        SharedPreferences sharedPref2 = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String lod = getResources().getString(R.string.londef);
+        String lon = sharedPref2.getString(getString(R.string.longlist), lod);
+        Log.d("sharedPref","lat: "+lat+" lon"+lon);
 
+        String[] latlist = lat.split("_");
+        String[] lonlist = lon.split("_");
+        if(latlist.length > 0 && lonlist.length > 0) {
+            for (int i = 0; i < latlist.length; i++) {
+                if (!latlist[i].equals("") && !lonlist[i].equals("")) {
+                    Location x = new Location("dummyprovider");
+                    double dlon = Double.parseDouble(lonlist[i]);
+                    double dlat = Double.parseDouble(latlist[i]);
+                    x.setLongitude(dlon);
+                    x.setLatitude(dlat);
+                    locList.add(x);
+                }
+            }
+        }
+
+        if (!locList.isEmpty()) {
+           arrLoc = locList.toArray(new Location[locList.size()]);
+        } else {
+            arrLoc = new Location[1];
+            Location x = new Location("dummyprovider");
+            double dlon = 0;
+            double dlat = 0;
+            x.setLongitude(dlon);
+            x.setLatitude(dlat);
+            arrLoc[0] = (x);
+        }
         mAdapter = new MyItemRecyclerViewAdapter2(arrLoc, getContext());
         mRecyclerView.setAdapter(mAdapter);
         return view;
@@ -130,28 +183,28 @@ public class GeofencingFragment extends Fragment {
         //Log.d("locMngr", "reached");
         locUpdate = true;
         mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        if(!checkLocationPermission()){
+        checkLocationPermission();
+        if(!!mLocationManager.isProviderEnabled(provider)){
             Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsIntent);
         }
         mLocationManager.requestSingleUpdate(provider,mLocationListener, null );
-
-
     }
 
     public void setFence(View view){
         //Log.d("fencemgr", "reached");
         setFence = true;
         mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        if(!checkLocationPermission()){
+        checkLocationPermission();
+        if(!mLocationManager.isProviderEnabled(provider)){
             Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsIntent);
         }
         mLocationManager.requestSingleUpdate(provider,mLocationListener, null );
-
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
+        @SuppressLint("MissingPermission")
         @Override
         public void onLocationChanged(final Location location) {
             currentLattitude = location.getLatitude();
@@ -161,7 +214,7 @@ public class GeofencingFragment extends Fragment {
             Location loc = new Location("dummyprovider");
             loc.setLatitude(currentLattitude);
             loc.setLongitude(currentLongitude);
-            locList.add(loc);
+//            locList.add(loc);
             if(locUpdate) { // TODO add buttons in notification
                 String CHANNEL_ID = "400A";
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
@@ -175,10 +228,11 @@ public class GeofencingFragment extends Fragment {
 
             } else if (setFence){
                 String ID = "fence"+fenceList.size()+"400A";
-
+                Location x = new Location("dummy provider");
+                x.setLatitude(currentLattitude);
+                x.setLongitude(currentLongitude);
+                locList.add(x);
                 fenceList.add(new Geofence.Builder()
-                        // Set the request ID of the geofence. This is a string to identify this
-                        // geofence.
                         .setRequestId(ID)
                         .setCircularRegion(
                                 currentLattitude,
@@ -189,7 +243,53 @@ public class GeofencingFragment extends Fragment {
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                                 Geofence.GEOFENCE_TRANSITION_EXIT)
                         .build());
+
+                mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Geofences added
+                                // ...
+                            }
+                        })
+                        .addOnFailureListener(getActivity(), new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Failed to add geofences
+                                // ...
+                            }
+                        });
+
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String lat = getResources().getString(R.string.latList);
+                String lon = getResources().getString(R.string.longlist);
+                Log.d("pref list", "lat"+lat+" lon"+lon);
+
+                SharedPreferences edit = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = edit.edit();
+                editor.putString(getString(R.string.latList), lat+"_"+String.valueOf(currentLattitude));
+                editor.commit();
+
+                SharedPreferences edit2 = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = edit2.edit();
+                editor2.putString(getString(R.string.longlist), lat+"_"+String.valueOf(currentLongitude));
+                editor2.commit();
+
+
+                arrLoc = locList.toArray(new Location[locList.size()]);
+//                mAdapter.notifyDataSetChanged();
+                mAdapter = new MyItemRecyclerViewAdapter2(arrLoc, getContext());
+                mRecyclerView.setAdapter(mAdapter);
+                Log.d("newFence","new geofence added");
+                setFence = false;
             }
+        }
+
+        private GeofencingRequest getGeofencingRequest() {
+            GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+            builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+            builder.addGeofences(fenceList);
+            return builder.build();
         }
 
         @Override
