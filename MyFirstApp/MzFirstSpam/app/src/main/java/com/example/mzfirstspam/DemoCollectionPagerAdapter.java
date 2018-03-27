@@ -18,7 +18,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
     public DemoCollectionPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
-        TABCOUNT = 3;
+        TABCOUNT = 4;
         mContext = context;
     }
 
@@ -34,6 +34,9 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 GeofencingFragment gf = new GeofencingFragment();
                 return gf;
+            case 3:
+                WiggleFragment wf = new WiggleFragment();
+                return wf;
             default:
                 return null;
         }
@@ -54,6 +57,8 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
                 return mContext.getString(R.string.shouts);
             case 2:
                 return "Geofencing";
+            case 3:
+                return "set wiggle";
             default:
                 return null;
         }
