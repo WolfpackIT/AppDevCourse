@@ -1,4 +1,4 @@
-package nl.wolfpack.emailwolfpack.wiggle;
+	nl.wolfpack.emailwolfpack.wiggle;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,6 +31,8 @@ public class WiggleFragment extends Fragment {
 
     private final static String CHANNEL_ID = "WIGGLE";
     NotificationManager mNM;
+	
+	// FEEDBACK EDWIN: you don't seem to store and remember settings, which is part of the assignment. 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

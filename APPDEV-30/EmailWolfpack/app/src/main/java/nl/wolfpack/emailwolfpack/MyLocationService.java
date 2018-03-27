@@ -22,12 +22,14 @@ public class MyLocationService extends Service {
 
     private static final String TAG = "MyLocationService";
     private static final String CHANNEL_ID = "2244";
+	// FEEDBACK EDWIN: initalizing as null is not needed, because by defualt the var is null.
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
 
     private final IBinder mBinder = new LocalBinder();
 
+	// FEEDBACK EDWIN: variables below, private,public protected?
     Location wolfpackLocation;
 
     NotificationManager mNM;
@@ -50,6 +52,7 @@ public class MyLocationService extends Service {
             Log.e(TAG, "onLocationChanged: " + location);
             mLastLocation.set(location);
             float distance = location.distanceTo(wolfpackLocation);
+			// FEEDBACK EDWIN: hardcoded 50 should be in stringfile or configfile.
             if(distance < 50 && !notificationShown) {
                 Log.d(TAG, String.valueOf(distance));
                 showNotification(location);
@@ -102,6 +105,8 @@ public class MyLocationService extends Service {
         return mBinder;
     }
 
+	// FEEDBACK EDWIN: hardcoded text!
+		// FEEDBACK EDWIN: you should give back information to the user when on of the catch scenarios takes place. You can generate a default notification for instance informing the user that something went wrong. 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
@@ -142,6 +147,7 @@ public class MyLocationService extends Service {
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
+		// FEEDBACK EDWIN: hardcoded text and location
         wolfpackLocation = new Location("wolfpack");
         wolfpackLocation.setLatitude(51.449680);
         wolfpackLocation.setLongitude(5.494753);
@@ -165,6 +171,7 @@ public class MyLocationService extends Service {
 
 
 
+	//// FEEDBACK EDWIN: again what about < version 0
     private void showNotification(Location location) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
@@ -180,6 +187,7 @@ public class MyLocationService extends Service {
             notificationManager.createNotificationChannel(mChannel);
         }
 
+		// FEEDBACK EDWIN: you can do this way nicer (and more readible) by using a string builder. look it up
         String text = "Latitude: " + location.getLongitude() + " Latitude: " + location.getLongitude() + "\n"
                 + "Accuracy: " + location.getAccuracy()  + " Altitude: " +  location.getAltitude();
 
@@ -211,6 +219,7 @@ public class MyLocationService extends Service {
     public void onDestroy()
     {
         Log.e(TAG, "onDestroy");
+		// FEEDBACK EDWIN: why call super before your own code, instead of after? there are reasons, but is this random?
         super.onDestroy();
         mNM.cancel(123);
         if (mLocationManager != null) {
