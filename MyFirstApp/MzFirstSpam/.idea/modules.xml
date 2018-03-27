@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MzFirstSpam.iml" filepath="$PROJECT_DIR$/MzFirstSpam.iml" />
-      <module fileurl="file://C:\Users\s147356\Documents\GitHub\AppDevCourse\MyFirstApp\MzFirstSpam\MzFirstSpam.iml" filepath="C:\Users\s147356\Documents\GitHub\AppDevCourse\MyFirstApp\MzFirstSpam\MzFirstSpam.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\s147356\Documents\GitHub\AppDevCourse\MyFirstApp\MzFirstSpam\app\app.iml" filepath="C:\Users\s147356\Documents\GitHub\AppDevCourse\MyFirstApp\MzFirstSpam\app\app.iml" />
     </modules>
   </component>
 </project>

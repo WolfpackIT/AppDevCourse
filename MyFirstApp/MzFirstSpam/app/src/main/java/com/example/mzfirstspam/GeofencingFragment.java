@@ -1,8 +1,11 @@
 package com.example.mzfirstspam;
 
 import android.Manifest;
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,6 +13,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -29,32 +34,52 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+//import android.location.Location;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.LocationRequest;
+
+
+
 import static android.content.Context.LOCATION_SERVICE;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GeofencingFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GeofencingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+
 public class GeofencingFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<Geofence> fenceList;
+    ArrayList<Location> locList;
+    FenceDB db = Room.databaseBuilder(getActivity().getApplicationContext(),
+            FenceDB.class, "fence").build();
+
+
+    //private LocationListener mLocationListener;
     Double currentLattitude;
     Double currentLongitude;
-    List<Location> fencingList = new ArrayList<>();
-    LocationManager mLocationManager;
     String provider;
-    boolean locationpermitted;
+    boolean locUpdate;
+    boolean setFence;
+    LocationManager mLocationManager;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("xxx", "onCreate: "+db.fenceDao().getAll());
+
+
         LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         provider = mLocationManager.getBestProvider(new Criteria(), false);
         checkLocationPermission();
@@ -66,17 +91,18 @@ public class GeofencingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_geofencing, container, false);
 
-        // Replace 'android.R.id.list' with the 'id' of your RecyclerView
+
+
+
         mRecyclerView = /** (RecyclerView) **/view.findViewById(R.id.FencingList);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         Log.d("debugMode", "The application stopped after this");
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        String[] fenceArray = new String[fencingList.size()];
-        fencingList.toArray(fenceArray); // fill the array
+        Location[] arrLoc = locList.toArray(new Location[locList.size()]);
 
-        mAdapter = new MyItemRecyclerViewAdapter2(fenceArray, getContext());
+        mAdapter = new MyItemRecyclerViewAdapter2(arrLoc, getContext());
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
@@ -98,65 +124,31 @@ public class GeofencingFragment extends Fragment {
                 setFence(view);
             }
         });
-
     }
 
     public void locationAction(View view) {
-        Log.d("locMngr", "reached");
-
-
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//
-//
-//
-//            return;
-//        }
+        //Log.d("locMngr", "reached");
+        locUpdate = true;
         mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        if(checkLocationPermission() == false){
-            Log.d("LocPer", "no location acces");
-            Snackbar bar = Snackbar.make(getView(), "please give us location access or this function will not be available", 1000);
-            return;
+        if(!checkLocationPermission()){
+            Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsIntent);
         }
-
-        mLocationManager.requestLocationUpdates(provider, 0, 0, mLocationListener);
-        Location loc = mLocationManager.getLastKnownLocation(provider);
-
-        String CHANNEL_ID = "400A";
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("WolfPack@ lat: "+currentLattitude+" and long: "+ currentLongitude)
-                .setContentText("LocationFound")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationManagerCompat =  NotificationManagerCompat.from(getActivity());
-        notificationManagerCompat.notify(4,mBuilder.build());
-
+        mLocationManager.requestSingleUpdate(provider,mLocationListener, null );
 
 
     }
 
     public void setFence(View view){
-        Log.d("fencemgr", "reached");
+        //Log.d("fencemgr", "reached");
+        setFence = true;
         mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        if(checkLocationPermission() == false){
-            Log.d("LocPer", "no location acces");
-            Snackbar bar = Snackbar.make(getView(), "please give us location access or this function will not be available", 1000);
-            return;
+        if(!checkLocationPermission()){
+            Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsIntent);
         }
+        mLocationManager.requestSingleUpdate(provider,mLocationListener, null );
 
-        mLocationManager.requestLocationUpdates(provider, 0, 0, mLocationListener);
-        Location loc = mLocationManager.getLastKnownLocation(provider);
-//        loc.setLatitude(currentLattitude);
-//        loc.setLongitude(currentLongitude);
-//        fencingList.add(loc);
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -164,22 +156,57 @@ public class GeofencingFragment extends Fragment {
         public void onLocationChanged(final Location location) {
             currentLattitude = location.getLatitude();
             currentLongitude = location.getLongitude();
+            Snackbar onLocSnack = Snackbar.make(getView(), "currentLattitude: "+currentLongitude, 1000);
+            onLocSnack.show();
+            Location loc = new Location("dummyprovider");
+            loc.setLatitude(currentLattitude);
+            loc.setLongitude(currentLongitude);
+            locList.add(loc);
+            if(locUpdate) { // TODO add buttons in notification
+                String CHANNEL_ID = "400A";
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle("WolfPack@ lat: " + currentLattitude + " and long: " + currentLongitude)
+                        .setContentText("LocationFound")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+                notificationManagerCompat.notify(4, mBuilder.build());
+                locUpdate = false;
+
+            } else if (setFence){
+                String ID = "fence"+fenceList.size()+"400A";
+
+                fenceList.add(new Geofence.Builder()
+                        // Set the request ID of the geofence. This is a string to identify this
+                        // geofence.
+                        .setRequestId(ID)
+                        .setCircularRegion(
+                                currentLattitude,
+                                currentLongitude,
+                                100
+                        )
+                        .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                                Geofence.GEOFENCE_TRANSITION_EXIT)
+                        .build());
+            }
         }
 
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
-            Log.d("Latitude","disable");
+
         }
 
         @Override
         public void onProviderEnabled(String s) {
-            Log.d("Latitude","enable");
+
         }
 
         @Override
         public void onProviderDisabled(String s) {
-            Log.d("Latitude","status");
+
         }
+
     };
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -188,11 +215,9 @@ public class GeofencingFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
@@ -210,8 +235,6 @@ public class GeofencingFragment extends Fragment {
                         })
                         .create()
                         .show();
-
-
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
@@ -223,7 +246,6 @@ public class GeofencingFragment extends Fragment {
             return true;
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -241,19 +263,20 @@ public class GeofencingFragment extends Fragment {
 
                         //Request location updates:
 
-                        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-                        locationManager.requestLocationUpdates(provider, 400, 1, (LocationListener) this);
+                        mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+                        mLocationManager.requestLocationUpdates(provider, 400, 1,  mLocationListener);
                     }
-
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-
                 }
                 return;
             }
 
         }
     }
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.mzfirstspam;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mzfirstspam.dummy.DummyContent.DummyItem;
+import com.google.android.gms.location.Geofence;
 
 
 import org.json.JSONException;
@@ -35,7 +37,7 @@ import java.util.Map;
  */
 public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyclerViewAdapter2.ViewHolder> {
 
-    public String[] shouts;
+    public Location[] shouts;
     private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
@@ -57,7 +59,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
     }
 
 
-    public MyItemRecyclerViewAdapter2(String[] shouts, Context ct) {
+    public MyItemRecyclerViewAdapter2(Location[] shouts, Context ct) {
         this.shouts = shouts;
         this.context = ct;
     }
@@ -72,8 +74,8 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String shout = shouts[position];
-        holder.shout.setText(shout);
+        Location shout = shouts[position];
+        holder.shout.setText( shout.toString());
     }
 
     @Override
