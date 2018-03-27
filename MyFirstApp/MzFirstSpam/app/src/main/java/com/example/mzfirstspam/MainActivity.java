@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,18 @@ public class MainActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        String newString;
+        int item = 0;
+        String value = "0";
+        Intent intent = getIntent();
+        value = intent.getStringExtra("Focus");
+        Log.d("intPa","value of focus "+value);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            value = bundle.getString("Focus");
+            item = Integer.parseInt(value);
+            Log.d("intPa",value);
+        }
 
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
@@ -39,11 +51,9 @@ public class MainActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
 
+        mViewPager.setCurrentItem(item);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
-
     }
 }
 

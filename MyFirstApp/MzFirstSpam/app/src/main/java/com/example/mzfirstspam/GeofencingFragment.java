@@ -13,10 +13,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -58,7 +60,8 @@ import static android.content.Context.LOCATION_SERVICE;
 
 
 public class GeofencingFragment extends Fragment {
-
+    String DEFAULTLAT = "lattitude";
+    String DEFAULTLON = "longitude";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -121,12 +124,11 @@ public class GeofencingFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String lad = getResources().getString(R.string.latdef);
-        String lat = sharedPref.getString(getString(R.string.latList), lad);
+        String lat = sharedPref.getString(DEFAULTLAT, "0");
 
         SharedPreferences sharedPref2 = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String lod = getResources().getString(R.string.londef);
-        String lon = sharedPref2.getString(getString(R.string.longlist), lod);
+        String lon = sharedPref2.getString(DEFAULTLON, "0");
+
         Log.d("sharedPref","lat: "+lat+" lon"+lon);
 
         String[] latlist = lat.split("_");
@@ -184,7 +186,7 @@ public class GeofencingFragment extends Fragment {
         locUpdate = true;
         mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         checkLocationPermission();
-        if(!!mLocationManager.isProviderEnabled(provider)){
+        if(!mLocationManager.isProviderEnabled(provider)){
             Intent gpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsIntent);
         }
@@ -204,13 +206,15 @@ public class GeofencingFragment extends Fragment {
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @SuppressLint("MissingPermission")
         @Override
         public void onLocationChanged(final Location location) {
             currentLattitude = location.getLatitude();
             currentLongitude = location.getLongitude();
-            Snackbar onLocSnack = Snackbar.make(getView(), "currentLattitude: "+currentLongitude, 1000);
-            onLocSnack.show();
+
+//            Snackbar onLocSnack = Snackbar.make(getView(), "currentLattitude: "+currentLongitude, 1000);
+//            onLocSnack.show();
             Location loc = new Location("dummyprovider");
             loc.setLatitude(currentLattitude);
             loc.setLongitude(currentLongitude);
@@ -219,8 +223,17 @@ public class GeofencingFragment extends Fragment {
                 String CHANNEL_ID = "400A";
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setContentTitle("WolfPack@ lat: " + currentLattitude + " and long: " + currentLongitude)
+                        .setContentTitle("Welcome @ wolfpack: ")
                         .setContentText("LocationFound")
+                        .setStyle(new NotificationCompat.InboxStyle()
+                            .addLine("Lattitude @ "+currentLattitude)
+                            .addLine("Longitude @ "+currentLongitude)
+                            .addLine("Accuracy @ "+location.getAccuracy())
+                            .addLine("Altitude @ "+location.getAltitude())
+                            .addLine("Provided @ "+location.getProvider())
+                            .addLine("Speed @ "+location.getSpeed())
+                            .addLine("Real bearing @"+location.getBearing())
+                            .addLine("time @ "+location.getTime()))
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
                 notificationManagerCompat.notify(4, mBuilder.build());
@@ -260,19 +273,20 @@ public class GeofencingFragment extends Fragment {
                             }
                         });
 
-                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                String lat = getResources().getString(R.string.latList);
-                String lon = getResources().getString(R.string.longlist);
+                SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String lat = sharedpref.getString(DEFAULTLAT, "0");
+                String lon = sharedpref.getString(DEFAULTLON, "0");
                 Log.d("pref list", "lat"+lat+" lon"+lon);
 
                 SharedPreferences edit = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = edit.edit();
-                editor.putString(getString(R.string.latList), lat+"_"+String.valueOf(currentLattitude));
+                editor.putString(DEFAULTLON, lat+"_"+String.valueOf(currentLattitude));
                 editor.commit();
+
 
                 SharedPreferences edit2 = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor2 = edit2.edit();
-                editor2.putString(getString(R.string.longlist), lat+"_"+String.valueOf(currentLongitude));
+                editor2.putString(DEFAULTLAT, lat+"_"+String.valueOf(currentLongitude));
                 editor2.commit();
 
 

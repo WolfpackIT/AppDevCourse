@@ -53,7 +53,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return mContext.getString(R.string.shouts);
             case 2:
-                return "Geofencinhg";
+                return "Geofencing";
             default:
                 return null;
         }
