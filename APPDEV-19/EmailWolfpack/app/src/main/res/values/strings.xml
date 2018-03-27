@@ -15,4 +15,7 @@
     <string name="get_location">Get Location</string>
     <string name="channel_name">Wolfpack Notifications</string>
     <string name="channel_description">Notification for when you are nearby Wolfpack office</string>
+    <string name="set_wiggle">Set Wiggle</string>
+    <string name="min_shake_acc">Min. Shake Accelaration</string>
+    <string name="shake_count">Minimum Shake Count</string>
 </resources>

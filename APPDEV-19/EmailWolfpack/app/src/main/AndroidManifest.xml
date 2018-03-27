@@ -32,6 +32,7 @@
         <activity android:name=".CallWPActivity" />
 
         <service android:name=".MyLocationService"/>
+        <service android:name=".wiggle.WiggleService"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

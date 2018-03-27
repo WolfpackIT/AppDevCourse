@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import nl.wolfpack.emailwolfpack.geofence.GeoFenceFragment;
 import nl.wolfpack.emailwolfpack.slack.ShoutFragment;
+import nl.wolfpack.emailwolfpack.wiggle.WiggleFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int mNumberOfTabs;
@@ -26,6 +27,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             }
             case 2: {
                 return new GeoFenceFragment();
+            }
+            case 3: {
+                return new WiggleFragment();
             }
             default:
                 return null;

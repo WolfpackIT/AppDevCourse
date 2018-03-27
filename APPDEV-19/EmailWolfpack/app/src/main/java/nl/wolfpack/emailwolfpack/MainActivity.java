@@ -1,19 +1,13 @@
 package nl.wolfpack.emailwolfpack;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
@@ -23,14 +17,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-import android.location.LocationListener;
 
 import com.google.android.gms.location.LocationRequest;
 
 import nl.wolfpack.emailwolfpack.geofence.GeoFenceFragment;
-
-import nl.wolfpack.emailwolfpack.MyLocationService.LocalBinder;
-
 
 public class MainActivity extends AppCompatActivity implements ContactWolfpackFragment.OnFragmentInteractionListener, GeoFenceFragment.OnFragmentInteractionListener {
     private final static int PERMISSIONS_REQUEST_COARSE_LOCATION = 211;
@@ -51,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         tabLayout.addTab(tabLayout.newTab().setText("Wolfpack"));
         tabLayout.addTab(tabLayout.newTab().setText("Shout!"));
         tabLayout.addTab(tabLayout.newTab().setText("GeoFencing"));
+        tabLayout.addTab(tabLayout.newTab().setText("Wiggle Wiggle"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -83,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         } else {
             Log.d(TAG, "No extra tab");
         }
+
+
+        checkPermissions();
     }
 
     private void checkPermissions() {
@@ -198,9 +192,6 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         super.onDestroy();
         stopService(locationServiceIntent);
     }
-
-
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -37,24 +38,32 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import nl.wolfpack.emailwolfpack.MainActivity;
 import nl.wolfpack.emailwolfpack.R;
+import nl.wolfpack.emailwolfpack.TinyDB;
 
 public class GeoFenceFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private FusedLocationProviderClient mFusedLocationClient;
 
-    private List<String> locations;
+    private ArrayList<String> locations;
     RecyclerView recyclerView;
     LocationsAdapter adapter;
 
     private final static int PERMISSIONS_REQUEST_COARSE_LOCATION = 211;
-    private final static String CHANNEL_ID = "geo_fence";
 
+    private final static String CHANNEL_ID = "geo_fence";
     NotificationManager mNM;
+
+    TinyDB tinydb;
+
+
+
 
     public GeoFenceFragment() {
         // Required empty public constructor
@@ -68,7 +77,14 @@ public class GeoFenceFragment extends Fragment {
         mNM = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        locations = new ArrayList<>();
+        locations = new ArrayList<String>();
+
+        tinydb = new TinyDB(getContext());
+
+        ArrayList<String> dbLocations = tinydb.getListString("FENCES_LIST");
+        if(dbLocations.size() > 0) {
+            locations.addAll(dbLocations);
+        }
     }
 
     @Override
@@ -81,10 +97,9 @@ public class GeoFenceFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), 1);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        locations.add("TEST");
-
         adapter = new LocationsAdapter(locations);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 
@@ -116,6 +131,8 @@ public class GeoFenceFragment extends Fragment {
                         sendNotification(text);
                         locations.add(text);
                         adapter.notifyDataSetChanged();
+
+                        tinydb.putListString("FENCES_LIST", locations);
                     }
                 }
             });
