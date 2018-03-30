@@ -29,6 +29,7 @@ public class EmailWPActivity extends AppCompatActivity {
 
     private final Integer EMAIL_INTENT = 525;
     private final String CHANNEL_ID = "EMAIL";
+	// FEEDBACK EDWIN: privates start with an _ so _photoPhath
     private String photoPath;
 
     @Override
@@ -54,6 +55,7 @@ public class EmailWPActivity extends AppCompatActivity {
     }
 
 
+	// FEEDBACK EDWIN:hardcoded text allover the place;) also other functions below
     private File getImage() {
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File directory = contextWrapper.getDir(ContactWolfpackFragment.IMAGE_DIR, Context.MODE_PRIVATE);
@@ -72,6 +74,7 @@ public class EmailWPActivity extends AppCompatActivity {
         startActivityForResult(emailIntent, EMAIL_INTENT);
     }
 
+	// FEEDBACK EDWIN: why no feedback to the user when ACtivity result is not ok?
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == EMAIL_INTENT && resultCode == Activity.RESULT_OK) {
@@ -85,6 +88,7 @@ public class EmailWPActivity extends AppCompatActivity {
         }
     }
 
+	// FEEDBACK EDWIN:no proper back navigation, what is it that you try to get around to? You can look up 'back navigation' in android documentation. 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

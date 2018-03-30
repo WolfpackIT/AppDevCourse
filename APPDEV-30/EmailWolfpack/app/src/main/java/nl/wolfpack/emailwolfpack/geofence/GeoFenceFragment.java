@@ -60,6 +60,7 @@ public class GeoFenceFragment extends Fragment {
     private final static String CHANNEL_ID = "geo_fence";
     NotificationManager mNM;
 
+	// FEEDBACK EDWIN: private, static, public?
     TinyDB tinydb;
 
 
@@ -78,7 +79,7 @@ public class GeoFenceFragment extends Fragment {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         locations = new ArrayList<String>();
-
+		// FEEDBACK EDWIN: nice usage of a db! Did you think about try/catching some stuff here? what if TinyDb initalisation fails?
         tinydb = new TinyDB(getContext());
 
         ArrayList<String> dbLocations = tinydb.getListString("FENCES_LIST");
@@ -119,12 +120,14 @@ public class GeoFenceFragment extends Fragment {
         notificationManager.notify(544, builder.build());
     }
 
+	// FEEDBACK EDWIN: repeated code from the mainactivity lines 101 and further. 
     private void getLastKnownLocation() {
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_COARSE_LOCATION);
         } else {
             mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                 @Override
+				// FEEDBACK EDWIN: what onFailed?
                 public void onSuccess(Location location) {
                     if (location != null) {
                         String text = "Longitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude();
@@ -139,6 +142,7 @@ public class GeoFenceFragment extends Fragment {
         }
     }
 
+	
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -211,6 +215,7 @@ public class GeoFenceFragment extends Fragment {
         }
     }
 
+	// FEEDBACK EDWIN: no need for this?
     @Override
     public void onResume() {
         super.onResume();
@@ -227,6 +232,7 @@ public class GeoFenceFragment extends Fragment {
         }
     }
 
+	// FEEDBACK EDWIN: no need for this?
     @Override
     public void onDetach() {
         super.onDetach();

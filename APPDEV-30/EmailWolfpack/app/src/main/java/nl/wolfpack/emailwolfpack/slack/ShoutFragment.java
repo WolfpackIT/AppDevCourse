@@ -43,6 +43,8 @@ public class ShoutFragment extends Fragment {
         shouts = new ArrayList<>();
     }
 
+	// FEEDBACK EDWIN: do you check what happens if you don't have internet? You should check if the user has active internet connection, or else notify the user.
+	// FEEDBACK EDWIN:  function is not called?
     private JsonObjectRequest sendSlackMessage(final String shout) {
         JSONObject jsonBodyObj = new JSONObject();
         try{
@@ -95,6 +97,7 @@ public class ShoutFragment extends Fragment {
                     @Override public void onItemClick(View view, final int position) {
                         RequestQueue queue = Volley.newRequestQueue(getContext());
                         JSONObject jsonBodyObj = new JSONObject();
+						// FEEDBACK EDWIN: dual, you already declared a final above
                         String url = "https://hooks.slack.com/services/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";
                         try{
                             jsonBodyObj.put("text", shouts.get(position));
@@ -140,6 +143,7 @@ public class ShoutFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), 1);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+		// FEEDBACK EDWIN: usage of string or array file!
         shouts.add("lekker eddy");
         shouts.add("hue");
         shouts.add("lekker eddy");

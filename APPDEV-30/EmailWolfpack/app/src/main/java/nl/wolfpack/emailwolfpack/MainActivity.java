@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+		
+		// FEEDBACK EDWIN: Use stringfiles or array file for harcoded text 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Wolfpack"));
         tabLayout.addTab(tabLayout.newTab().setText("Shout!"));
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        	// FEEDBACK EDWIN: remove the unimplemented functions when you don't need them.
+		tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -66,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         });
 
         int selectedTabIndex;
+			// FEEDBACK EDWIN: you use getIntExtra twice in a row. The correct way is to store it in a local variable, so that you decrease the number of system calls. (calling the sharedpreferences is way more intensive than storing it in a local var
+				// FEEDBACK EDWIN: it's nicer to put this in a small 
         if(getIntent().hasExtra("tab")) {
+				// FEEDBACK EDWIN: what happens when you pass an invalid tabIndex (like -1)? 
             selectedTabIndex = getIntent().getIntExtra("tab", 0);
             TabLayout.Tab tab = tabLayout.getTabAt(selectedTabIndex);
             Log.d(TAG, "Intent Tab Index: " + String.valueOf(tab.getPosition()));
@@ -93,14 +98,17 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         }
     }
 
+	// FEEDBACK EDWIN: what if onRequestPermissionResult is never fired? what is the user feedback then?
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_COARSE_LOCATION: {
+					// FEEDBACK EDWIN: do you know the difference between && and &? this is quite important to avoid nullpointer errors!
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLocationUpdates();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Mijn maneer/vrouw we need your location...", Toast.LENGTH_SHORT).show();
+						// FEEDBACK EDWIN: hardcoded text has to be in stringfiles!
+                    Toast.makeText(getApplicationContext(), "Mijn meneer/vrouw we need your location...", Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -108,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startService(new Intent(this, MyLocationService.class));
                 } else {
+					// FEEDBACK EDWIN: hardcoded text has to be in stringfiles!
                     Toast.makeText(getApplicationContext(), "Mijn maneer/vrouw we need your location...", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -117,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
     }
 
 
+	// FEEDBACK EDWIN: what does this function do?
+	
     private void getLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(100);
@@ -145,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
 
     }
 
+	// FEEDBACK EDWIN: Seems that this override is a hack for something, since selecting the correct tab onNewIntent shouldn't be needed. What is the idea behind this?
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -159,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         }
     }
 
+	// FEEDBACK EDWIN: what is your solutions for < android O version?
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
