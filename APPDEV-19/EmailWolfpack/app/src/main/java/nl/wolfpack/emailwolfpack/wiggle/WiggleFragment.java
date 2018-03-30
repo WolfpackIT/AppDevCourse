@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import nl.wolfpack.emailwolfpack.R;
+import nl.wolfpack.emailwolfpack.TinyDB;
 
 public class WiggleFragment extends Fragment {
 
@@ -27,10 +28,11 @@ public class WiggleFragment extends Fragment {
     private boolean wiggleEnabled;
 
     private SeekBar minNrOfShakes;
-
+    private TinyDB tinyDB;
 
     private final static String CHANNEL_ID = "WIGGLE";
-    NotificationManager mNM;
+
+    private NotificationManager mNM;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,12 @@ public class WiggleFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mNM = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        try {
+            tinyDB = new TinyDB(getContext().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -46,6 +54,10 @@ public class WiggleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_wiggle, container, false);
 
         minNrOfShakes = (SeekBar) view.findViewById(R.id.minShakeCountBar);
+        Integer customShakeCount = tinyDB.getInt(getString(R.string.shake_count_tinydb));
+        if(customShakeCount >= 0) {
+            minNrOfShakes.setProgress(customShakeCount);
+        }
         minNrOfShakes.setEnabled(false);
         minNrOfShakes.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -59,7 +71,9 @@ public class WiggleFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                wiggleListenor.setmShakeCount(seekBar.getProgress());
+                Integer progress = seekBar.getProgress();
+                wiggleListenor.setmShakeCount(progress);
+                tinyDB.putInt(getString(R.string.shake_count_tinydb), progress);
             }
         });
 

@@ -38,17 +38,17 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         setContentView(R.layout.activity_main);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Wolfpack"));
-        tabLayout.addTab(tabLayout.newTab().setText("Shout!"));
-        tabLayout.addTab(tabLayout.newTab().setText("GeoFencing"));
-        tabLayout.addTab(tabLayout.newTab().setText("Wiggle Wiggle"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_wolfpack));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_shout));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_geofencing));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_wiggle));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -66,11 +66,16 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         });
 
         int selectedTabIndex;
-        if(getIntent().hasExtra("tab")) {
-            selectedTabIndex = getIntent().getIntExtra("tab", 0);
-            TabLayout.Tab tab = tabLayout.getTabAt(selectedTabIndex);
-            Log.d(TAG, "Intent Tab Index: " + String.valueOf(tab.getPosition()));
-            tab.select();
+        Intent getIntent = getIntent();
+        if(getIntent.hasExtra("tab")) {
+            selectedTabIndex = getIntent.getIntExtra("tab", 0);
+            if(selectedTabIndex > 0) {
+                TabLayout.Tab tab = tabLayout.getTabAt(selectedTabIndex);
+                Log.d(TAG, "Intent Tab Index: " + String.valueOf(tab.getPosition()));
+                tab.select();
+            } else {
+                Toast.makeText(this, R.string.cant_complete_action, Toast.LENGTH_SHORT).show();
+            }
         } else {
             Log.d(TAG, "No extra tab");
         }
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLocationUpdates();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Mijn maneer/vrouw we need your location...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.location_request_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startService(new Intent(this, MyLocationService.class));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Mijn maneer/vrouw we need your location...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.location_request_denied, Toast.LENGTH_SHORT).show();
                 }
             }
             default:
@@ -159,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements ContactWolfpackFr
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();

@@ -18,4 +18,20 @@
     <string name="set_wiggle">Set Wiggle</string>
     <string name="min_shake_acc">Min. Shake Accelaration</string>
     <string name="shake_count">Minimum Shake Count</string>
+    <string name="photoPath">photoPath</string>
+    <string name="i_did_it">I did it, greetings qasim</string>
+    <string name="hello_world">HELLO WORLD</string>
+    <string name="rene_email">rene.le.clercq@wolfpackit.nl</string>
+    <string name="wolfpack">Wolfpack</string>
+    <string name="email_not_sent">Email has not been sent.</string>
+    <string name="tab_wolfpack">Wolfpack</string>
+    <string name="tab_shout">Shout!</string>
+    <string name="tab_geofencing">GeoFencing</string>
+    <string name="tab_wiggle">Wiggle Wiggle</string>
+    <string name="location_request_denied">Mijn maneer/vrouw we need your location…</string>
+    <string name="cant_complete_action">Can\'t complete action</string>
+    <string name="something_went_wrong">Something went wrong…</string>
+    <string name="your_last_location_is">Your last known location is...</string>
+    <string name="internet_connection_required">Internet connection is required</string>
+    <string name="shake_count_tinydb">shakeCount</string>
 </resources>

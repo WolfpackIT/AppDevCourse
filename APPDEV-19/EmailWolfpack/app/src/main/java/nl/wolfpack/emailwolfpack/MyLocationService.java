@@ -17,20 +17,21 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MyLocationService extends Service {
 
     private static final String TAG = "MyLocationService";
     private static final String CHANNEL_ID = "2244";
-    private LocationManager mLocationManager = null;
+    private LocationManager mLocationManager;
     private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
 
     private final IBinder mBinder = new LocalBinder();
 
-    Location wolfpackLocation;
+    private Location wolfpackLocation;
 
-    NotificationManager mNM;
+    private NotificationManager mNM;
     boolean notificationShown = false;
 
 
@@ -112,8 +113,10 @@ public class MyLocationService extends Service {
                     LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
                     mLocationListeners[1]);
         } catch (java.lang.SecurityException ex) {
+            Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {
+            Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "network provider does not exist, " + ex.getMessage());
         }
         try {
@@ -142,7 +145,7 @@ public class MyLocationService extends Service {
 
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
-        wolfpackLocation = new Location("wolfpack");
+        wolfpackLocation = new Location(String.valueOf(R.string.wolfpack));
         wolfpackLocation.setLatitude(51.449680);
         wolfpackLocation.setLongitude(5.494753);
 
@@ -180,8 +183,9 @@ public class MyLocationService extends Service {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        String text = "Latitude: " + location.getLongitude() + " Latitude: " + location.getLongitude() + "\n"
-                + "Accuracy: " + location.getAccuracy()  + " Altitude: " +  location.getAltitude();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Latitude: ").append(location.getLongitude()).append(" Latitude: ").append(location.getLongitude())
+                .append("\n").append(" Accuracy: ").append(location.getAccuracy()).append(" Altitude: ").append(location.getAltitude());
 
         Intent intentMain = new Intent(this, MainActivity.class);
         intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -198,7 +202,7 @@ public class MyLocationService extends Service {
                 .setContentText("We are not paying to sit around, get to work...")
                 .addAction(R.drawable.ic_launcher_background, "Main", pendingMainIntent)
                 .addAction(R.drawable.ic_launcher_background, "Shouts", pendingShoutsIntent)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(stringBuilder.toString()))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -210,8 +214,8 @@ public class MyLocationService extends Service {
     @Override
     public void onDestroy()
     {
-        Log.e(TAG, "onDestroy");
         super.onDestroy();
+        Log.e(TAG, "onDestroy");
         mNM.cancel(123);
         if (mLocationManager != null) {
             for (int i = 0; i < mLocationListeners.length; i++) {

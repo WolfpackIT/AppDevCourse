@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
@@ -52,15 +53,15 @@ public class GeoFenceFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
 
     private ArrayList<String> locations;
-    RecyclerView recyclerView;
-    LocationsAdapter adapter;
+    private RecyclerView recyclerView;
+    private LocationsAdapter adapter;
 
     private final static int PERMISSIONS_REQUEST_COARSE_LOCATION = 211;
 
     private final static String CHANNEL_ID = "geo_fence";
-    NotificationManager mNM;
+    private NotificationManager mNM;
 
-    TinyDB tinydb;
+    private TinyDB tinydb;
 
 
 
@@ -79,11 +80,16 @@ public class GeoFenceFragment extends Fragment {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         locations = new ArrayList<String>();
 
-        tinydb = new TinyDB(getContext());
+        try {
+            tinydb = new TinyDB(getContext());
 
-        ArrayList<String> dbLocations = tinydb.getListString("FENCES_LIST");
-        if(dbLocations.size() > 0) {
-            locations.addAll(dbLocations);
+            ArrayList<String> dbLocations = tinydb.getListString("FENCES_LIST");
+            if(dbLocations.size() > 0) {
+                locations.addAll(dbLocations);
+            }
+        } catch (Exception e){
+            Toast.makeText(getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 
@@ -113,7 +119,7 @@ public class GeoFenceFragment extends Fragment {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("Wolfpack")
-                .setContentText("Your last known location is...")
+                .setContentText(getString(R.string.your_last_location_is))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text));
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         notificationManager.notify(544, builder.build());
@@ -134,6 +140,13 @@ public class GeoFenceFragment extends Fragment {
 
                         tinydb.putListString("FENCES_LIST", locations);
                     }
+                }
+            });
+
+            mFusedLocationClient.getLastLocation().addOnFailureListener(getActivity(), new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -211,10 +224,6 @@ public class GeoFenceFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onAttach(Context context) {

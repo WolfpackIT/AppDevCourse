@@ -8,6 +8,9 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.Log;
 
+import nl.wolfpack.emailwolfpack.R;
+import nl.wolfpack.emailwolfpack.TinyDB;
+
 public class WiggleListenor implements SensorEventListener {
     private SensorManager mSensorMgr;
     private final Sensor mAccelerometer;
@@ -26,7 +29,7 @@ public class WiggleListenor implements SensorEventListener {
     private long mLastShake;
     private long mLastForce;
 
-
+    private TinyDB tinyDB;
 
     public interface OnShakeListener
     {
@@ -36,6 +39,14 @@ public class WiggleListenor implements SensorEventListener {
 
     public WiggleListenor(Context context) {
         mContext = context;
+
+        try {
+            tinyDB = new TinyDB(mContext.getApplicationContext());
+            mShakeCount = tinyDB.getInt(mContext.getString(R.string.shake_count_tinydb));
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+
         mSensorMgr = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         resume();

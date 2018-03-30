@@ -29,7 +29,7 @@ public class EmailWPActivity extends AppCompatActivity {
 
     private final Integer EMAIL_INTENT = 525;
     private final String CHANNEL_ID = "EMAIL";
-    private String photoPath;
+    private String _photoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class EmailWPActivity extends AppCompatActivity {
         button.setText(R.string.mail_now_text);
 
         Intent intent = getIntent();
-        photoPath = intent.getStringExtra("photoPath");
+        _photoPath = intent.getStringExtra(getString(R.string.photoPath));
     }
 
 
@@ -63,10 +63,10 @@ public class EmailWPActivity extends AppCompatActivity {
 
     public void onClickPlaceholder(View view) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
-                Uri.parse("mailto:" + Uri.encode("rene.le.clercq@wolfpackit.nl")));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "HELLO WORLD");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "I did it, greetings qasim");
-        File f = new File(photoPath);
+                Uri.parse("mailto:" + Uri.encode(getString(R.string.rene_email))));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.hello_world));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.i_did_it));
+        File f = new File(_photoPath);
         Uri photoUri = Uri.fromFile(f);
         emailIntent.putExtra(Intent.EXTRA_STREAM,  photoUri);
         startActivityForResult(emailIntent, EMAIL_INTENT);
@@ -77,21 +77,13 @@ public class EmailWPActivity extends AppCompatActivity {
         if(requestCode == EMAIL_INTENT && resultCode == Activity.RESULT_OK) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_background)
-                    .setContentTitle("Wolfpack")
+                    .setContentTitle(getString(R.string.wolfpack))
                     .setContentText("Email has been sent to rene!")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
             NotificationManagerCompat  notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(544, builder.build());
+        } else {
+            Toast.makeText(this, R.string.email_not_sent, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(item.getItemId() == android.R.id.home)
-        {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
