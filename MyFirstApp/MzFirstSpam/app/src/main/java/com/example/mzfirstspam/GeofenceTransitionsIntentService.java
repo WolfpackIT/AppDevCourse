@@ -2,6 +2,7 @@ package com.example.mzfirstspam;
 
 import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
@@ -35,7 +36,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
 
         // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) { // || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT || geofenceTransition ==Geofence.GEOFENCE_TRANSITION_DWELL) { // || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
             Geofence geo = triggeringGeofences.get(0);
             String GeoConCat = "";
@@ -49,19 +50,30 @@ public class GeofenceTransitionsIntentService extends IntentService {
 // Set the Activity to start in a new, empty task
             notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            notifyIntent.putExtra("Focus", "2");
+            notifyIntent.putExtra("Focus", "1");
 // Create the PendingIntent
             PendingIntent notifyPendingIntent = PendingIntent.getActivity(
-                    this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
-            );
+                    this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Intent completeIntent = new Intent(this, MarkComplete.class);
+            //completeIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            completeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //int  requestID = (int) System.currentTimeMillis();
+
+            PendingIntent markCompleteIntent = PendingIntent.getActivity(this, 0,
+                    completeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
             String CHANNEL_ID = "300A";
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                    .setContentIntent(notifyPendingIntent)
+
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle("Welcome @ Wolfpack " )
                     .setContentText("LocationFound")
                     .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(GeoConCat))
+                    .addAction(R.drawable.quantum_ic_volume_off_white_36, "start app", notifyPendingIntent)
+                    .addAction(R.drawable.quantum_ic_volume_off_white_36, "archive", markCompleteIntent )
                     .setPriority(NotificationCompat.PRIORITY_MIN);
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
             notificationManagerCompat.notify(4, mBuilder.build());

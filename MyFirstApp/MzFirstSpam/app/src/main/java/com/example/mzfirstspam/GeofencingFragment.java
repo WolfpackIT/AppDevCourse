@@ -263,6 +263,7 @@ public class GeofencingFragment extends Fragment {
                             public void onSuccess(Void aVoid) {
                                 // Geofences added
                                 // ...
+
                             }
                         })
                         .addOnFailureListener(getActivity(), new OnFailureListener() {
