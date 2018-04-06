@@ -2,6 +2,7 @@ package com.example.wolfpackapp;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,13 +42,13 @@ public class LoginActivity extends AppCompatActivity {
 // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Button btn = (Button) findViewById(R.id.button2);
-        btn.setOnClickListener(new View.OnClickListener(){
+        btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 signIn();
-                if ( signedIn) {
-                    if (db.EmpDAO().uidList(id).isEmpty()){
+                if (signedIn) {
+                    if (db.EmpDAO().uidList(id).isEmpty()) {
                         // start service to update database, but let person go on
 //                        Intent serv = new Intent(getApplicationContext(),);
 //                        serv.putExtra("googleID", id);
@@ -86,15 +87,16 @@ public class LoginActivity extends AppCompatActivity {
             String gID = account.getId();
             id = account.getId();
             Employee x = new Employee();
-            if (db.EmpDAO().uidList(gID).isEmpty()){
-                x.setUid(gID);
-                x.setEmail(account.getEmail());
-                x.setFirstName(account.getDisplayName());
-                x.setLastName(account.getFamilyName());
-                db.EmpDAO().insert(x);
-            }
-            if( !db.EmpDAO().uidList(gID).isEmpty()){
-                Log.d("Loginclass","Possible error inserting in database");
+
+            x.setUid(gID);
+            x.setEmail(account.getEmail());
+            x.setFirstName(account.getDisplayName());
+            x.setLastName(account.getFamilyName());
+
+            new updateDatabase().execute(x);
+
+            if (!db.EmpDAO().uidList(gID).isEmpty()) {
+                Log.d("Loginclass", "Possible error inserting in database");
             }
 
             signedIn = true;
@@ -106,5 +108,32 @@ public class LoginActivity extends AppCompatActivity {
             Log.w("LoginClass", "signInResult:failed code=" + e.getStatusCode());
 //            updateUI(null);
         }
+    }
+
+    private class updateDatabase extends AsyncTask<Employee, Integer, Long> {
+        String TAGB = "loginbackground";
+
+        @Override
+        protected Long doInBackground(Employee... employees) {
+            for (int i = 0; i < employees.length; i++) {
+                if (!employees[i].getUid().isEmpty()) {
+                    if(db.EmpDAO().uidList(employees[i].getUid()).isEmpty()){
+                        db.EmpDAO().insert(employees[i]);
+                        return (long) 1;
+                    }
+                }
+            }
+            return (long) 0;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            Log.d(TAGB, "updating database");
+        }
+
+        protected void onPostExecute(Long result) {
+            Log.d(TAGB, "Downloaded " + result + " bytes");
+        }
+
+
     }
 }
