@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="log_in">Log in</string>
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+    <string name="default_web_client_id">1027748265275-5qjmt76v9f412tau30s1gs6v8fo4ff9i.apps.googleusercontent.com</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="declarations">Declarations</string>
+    <string name="news">News</string>
+    <string name="food_ordering">Order Food</string>
+    <string name="the_wolfs">The Wolfs</string>
+    <string name="wiki">Wiki</string>
+    <string name="tab_submitted">Submitted</string>
+    <string name="tab_drafts">Drafts</string>
+    <string name="general">General</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="description">Description</string>
+    <string name="Date">Date</string>
+    <string name="off">Off</string>
+    <string name="btw">BTW</string>
+    <string name="total_without_btw">Total (excl. BTW)</string>
+    <string name="eruo_sign">€</string>
+</resources>

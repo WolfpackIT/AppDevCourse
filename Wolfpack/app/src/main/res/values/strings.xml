@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Wolfpack</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="log_in">Log in</string>
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="default_web_client_id">1027748265275-5qjmt76v9f412tau30s1gs6v8fo4ff9i.apps.googleusercontent.com</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="action_logout">Logout</string>
+    <string name="declarations">Declarations</string>
+    <string name="news">News</string>
+    <string name="food_ordering">Order Food</string>
+    <string name="the_wolfs">The Wolfs</string>
+    <string name="wiki">Wiki</string>
+    <string name="tab_submitted">Submitted</string>
+    <string name="tab_accepted">Accepted</string>
+    <string name="tab_drafts">Drafts</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="general">General</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="description">Description</string>
+    <string name="Date">Date</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="btw">BTW</string>
+    <string name="total_without_btw">Total (excl. BTW)</string>
+    <string name="zero_euro">00.00</string>
+    <string name="eruo_sign">€</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+            android:title="@string/news" />
+        <item
+            android:id="@+id/nav_declaration"
+            android:title="@string/declarations" />
+        <item
+            android:id="@+id/nav_food_order"
+            android:title="@string/food_ordering" />
+        <item
+            android:id="@+id/nav_wolfs"
+            android:title="@string/the_wolfs" />
+        <item
+            android:id="@+id/nav_wiki"
+            android:title="@string/wiki" />
+    </group>
+</menu>

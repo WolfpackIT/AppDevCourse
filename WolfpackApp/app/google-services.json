@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1085943786170",
+    "firebase_url": "https://wolfpackapp-28858.firebaseio.com",
+    "project_id": "wolfpackapp-28858",
+    "storage_bucket": "wolfpackapp-28858.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085943786170:android:651fb6afc1f282b6",
+        "android_client_info": {
+          "package_name": "nl.wolfpack.wolfpackapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085943786170-9utjjck4f96v74qc9p8l8r40dq35b0i8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wolfpack.wolfpackapp",
+            "certificate_hash": "1847a00bb44b062d1064dab63524f7bb56b15e94"
+          }
+        },
+        {
+          "client_id": "1085943786170-i6r7dvb6p3nj18lne55rnogsm08b5eal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOy8_GbQ8yQFscMVqdbig6UvnKye6e5qs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085943786170-i6r7dvb6p3nj18lne55rnogsm08b5eal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
