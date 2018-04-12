@@ -1,0 +1,36 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wolfpackapp.MainActivityfragments.RSSRecycler">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:elevation="4dp"
+            android:layout_alignParentTop="true"
+            android:minHeight="?android:attr/actionBarSize"
+            android:background="?android:attr/colorPrimary"
+            android:gravity="bottom"
+            android:paddingBottom="16dp"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <include
+        layout="@layout/content_main"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@android:drawable/ic_dialog_email" />
+
+</android.support.design.widget.CoordinatorLayout >

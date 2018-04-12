@@ -5,30 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.wolfpackapp.MainActivity">
+    tools:context="com.example.wolfpackapp.MainActivity"
+    android:id="@+id/mainA">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="visible">-->
 
-        <include
-            layout="@layout/tool_bar"
-            android:id="@+id/tool_bar"
-            android:layout="@layout/tool_bar" />
+        <!--<include-->
+            <!--layout="@layout/tool_bar"-->
+            <!--android:id="@+id/tool_bar"-->
+            <!--android:layout="@layout/tool_bar" />-->
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
 
-    <include
-        layout="@layout/content_main"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+    <!--<include-->
+        <!--layout="@layout/content_main"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@android:drawable/ic_dialog_email" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:src="@android:drawable/ic_dialog_email" />-->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -10,23 +10,30 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.wolfpackapp.MainActivityfragments.RSSRecycler;
+import com.example.wolfpackapp.StartUpFragments.LoadingScreenFragment;
+import com.example.wolfpackapp.StartUpFragments.LoginFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.net.InetAddress;
 
-public class InitialActivity extends AppCompatActivity {
+public class InitialActivity extends FragmentActivity {
+
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initial);
-
+        setContentView(R.layout.fragment_loading_screen);
         View parentLayout = findViewById(android.R.id.content);
 
         Context context = getApplicationContext();
@@ -50,7 +57,7 @@ public class InitialActivity extends AppCompatActivity {
                     closeNow();
                 }
             }, 2000);   //5 seconds
-            closeNow();
+//            closeNow();
         }
         if( isNetworkConnected() ){
 //            if( !isInternetAvailable() ){
@@ -75,12 +82,19 @@ public class InitialActivity extends AppCompatActivity {
             Snackbar sn = Snackbar.make(parentLayout,email, 1900 );
             sn.show();
             //intent to go to main menu.
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+            setContentView(R.layout.activity_main);
+            RSSRecycler firstFragment = new RSSRecycler();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mainA, firstFragment).commit();
         }else{
             // intent to start login screen
-              Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+//              Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+
+            // Create new fragment and transaction
+            setContentView(R.layout.fragment_login);
         }
 
     }
@@ -189,5 +203,24 @@ public class InitialActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar sn = Snackbar.make(findViewById(android.R.id.content),"Please press back again to exit", 2000);
+        sn.show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
