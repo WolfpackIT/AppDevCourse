@@ -11,17 +11,22 @@
         android:layout_height="wrap_content"
         android:visibility="visible">
 
-        <include
-            android:id="@+id/tool_bar"
-            layout="@layout/tool_bar"
-            android:layout="@layout/tool_bar" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/rssFeedToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:elevation="4dp"
+            android:gravity="bottom"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingBottom="16dp" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include
         layout="@layout/content_main"
         android:layout_width="match_parent"
-        android:layout_height="246dp"
+        android:layout_height="566dp"
         app:layout_anchor="@+id/appBarLayout"
         app:layout_anchorGravity="bottom|center"
         tools:layout_editor_absoluteY="-5dp" />

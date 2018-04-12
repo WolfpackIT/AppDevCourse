@@ -33,7 +33,9 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rssrecycler, container, false);
-        mToolbar = (Toolbar) view.findViewById(R.id.menuOpen);
+        android.support.design.widget.AppBarLayout mAppBarLayout;
+        mToolbar = (Toolbar) view.findViewById(R.id.rssFeedToolbar);
+        initToolbar();
         return view;
     }
 
@@ -51,9 +53,9 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
                 new Downloader(getContext(),urlAddress,rv).execute();
             }
         });
-        mToolbar = (Toolbar) view.findViewById(R.id.menuOpen);
+//        mToolbar = (Toolbar) getView().findViewById(R.id.rssFeedToolbar);
 
-        initToolbar();
+
 
 
     }
@@ -64,11 +66,10 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
     }
 
     private void initToolbar() {
-
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setTitle(R.string.app_name);
         mToolbar.showOverflowMenu();
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity ) getActivity()).setSupportActionBar(mToolbar);
     }
 
     @Override

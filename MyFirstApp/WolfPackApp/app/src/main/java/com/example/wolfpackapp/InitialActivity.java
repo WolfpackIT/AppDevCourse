@@ -26,7 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.net.InetAddress;
 
-public class InitialActivity extends FragmentActivity {
+public class InitialActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
