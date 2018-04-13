@@ -1,15 +1,41 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:showAsAction="never">
 
-    <item
-        android:id="@+id/action_favorite"
-        android:icon="@android:drawable/btn_dialog"
-        android:title="@string/action_favorite"
-        app:showAsAction="ifRoom" />
-
-    <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+    <group android:checkableBehavior="single"
+            app:showAsAction="never">
+        <item
+            android:id="@+id/nav_first_fragment"
+            android:icon="@android:drawable/btn_dialog"
+            android:title="First" />
+        <item
+            android:id="@+id/nav_second_fragment"
+            android:icon="@android:drawable/checkbox_on_background"
+            android:title="Second" />
+        <item
+            android:id="@+id/nav_third_fragment"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Third" />
+        <item
+            android:id="@+id/nl_switch"
+            android:title="@string/Dutch"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/en_switch"
+            android:title="@string/English"
+            app:showAsAction="never" />
+    </group>
+    <item android:title="Sub items">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:icon="@android:drawable/divider_horizontal_bright"
+                    android:title="Sub item 1" />
+                <item
+                    android:icon="@android:drawable/editbox_dropdown_dark_frame"
+                    android:title="Sub item 2" />
+            </group>
+        </menu>
+    </item>
 
 </menu>

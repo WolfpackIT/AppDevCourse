@@ -1,10 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WolfPack App</string>
     <string name="log">Log on</string>
-    <string name="sign">Sign in</string>
     <string name="Logon">Log on</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sign">Sign in</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_favorite">favourite actions</string>
     <string name="action_settings">action settings</string>

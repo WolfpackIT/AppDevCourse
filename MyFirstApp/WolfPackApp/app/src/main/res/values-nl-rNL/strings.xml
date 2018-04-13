@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WolfPack App</string>
+    <string name="log">Inloggen</string>
+    <string name="sign">Inloggen</string>
+    <string name="Logon">Inloggen</string>
+    <string name="hello_blank_fragment">Hallo leeg fragment</string>
+    <string name="action_settings">actie instellingen</string>
+    <string name="action_favorite">favorieten acties</string>
+    <string name="Dutch">Nederlands</string>
+    <string name="English">Engels</string>
+    <string name="Payment">Betaal Service</string>
+</resources>
