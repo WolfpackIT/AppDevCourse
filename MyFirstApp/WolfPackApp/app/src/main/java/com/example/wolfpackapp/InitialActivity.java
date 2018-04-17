@@ -2,11 +2,14 @@ package com.example.wolfpackapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -25,10 +28,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.example.wolfpackapp.Database.Employee;
 import com.example.wolfpackapp.MainActivityfragments.RSSRecycler;
 import com.example.wolfpackapp.StartUpFragments.LoadingScreenFragment;
 import com.example.wolfpackapp.StartUpFragments.LoginFragment;
+import com.example.wolfpackapp.StartUpFragments.MainFragment;
+import com.example.wolfpackapp.adminDB.Admin;
+import com.example.wolfpackapp.adminDB.AdpDB;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -37,9 +45,12 @@ import java.util.Locale;
 
 public class InitialActivity extends AppCompatActivity {
 
+    String NAME = "voornaam";
+    String EMAIL = "email";
     boolean doubleBackToExitPressedOnce = false;
     DrawerLayout mDrawerLayout;
     NavigationView navigationView;
+    AdpDB ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +59,15 @@ public class InitialActivity extends AppCompatActivity {
         View parentLayout = findViewById(android.R.id.content);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-
-        Context context = getApplicationContext();
-        if (!checkInternetPermission(this)){
-            Snackbar sn = Snackbar.make(parentLayout,"please give us the permission or the app won't run", 1900 );
+        ad = Room.databaseBuilder(this,
+                AdpDB.class, "Admin").build();
+        Admin x = new Admin();
+        x.setGMAIL("martijn.ras96@gmail.com");
+        x.setUid("00001");
+        new setAdmin().execute(x);
+        final Context context = getApplicationContext();
+        if (!checkInternetPermission(this)) {
+            Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
             sn.show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -61,8 +77,8 @@ public class InitialActivity extends AppCompatActivity {
             }, 2000);   //5 seconds
             closeNow();
         }
-        if(!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this)){
-            Snackbar sn = Snackbar.make(parentLayout,"please give us the permission or the app won't run", 1900 );
+        if (!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this)) {
+            Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
             sn.show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -72,7 +88,7 @@ public class InitialActivity extends AppCompatActivity {
             }, 2000);   //5 seconds
 //            closeNow();
         }
-        if( isNetworkConnected() ){
+        if (isNetworkConnected()) {
 //            if( !isInternetAvailable() ){
 //                Snackbar sn = Snackbar.make(parentLayout,"No internet access," +
 //                        " please provide internet access", 1900 );
@@ -87,34 +103,42 @@ public class InitialActivity extends AppCompatActivity {
         } else {
 
         }
-
-        GoogleSignInAccount lastSignedInAccount= GoogleSignIn.getLastSignedInAccount(context);
-        if(lastSignedInAccount!=null){
-            // user has already logged in, you can check user's email, name etc from lastSignedInAccount
-            String email = lastSignedInAccount.getEmail();
-            Snackbar sn = Snackbar.make(parentLayout,email, 1900 );
-            sn.show();
-            //intent to go to main menu.
+        Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context);
+                        if (lastSignedInAccount != null) {
+                            // user has already logged in, you can check user's email, name etc from lastSignedInAccount
+                            String email = lastSignedInAccount.getEmail();
+//                            Snackbar sn = Snackbar.make(, email, 1900);
+//                            sn.show();
+                            //intent to go to main menu.
 //            Intent intent = new Intent(this, MainActivity.class);
 //            startActivity(intent);
-            setContentView(R.layout.activity_main);
-            RSSRecycler firstFragment = new RSSRecycler();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mainA, firstFragment).commit();
-        }else{
-            // intent to start login screen
+                            setContentView(R.layout.activity_main);
+                            MainFragment firstFragment = new MainFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.mainA, firstFragment).commit();
+                        } else {
+                            // intent to start login screen
 //              Intent intent = new Intent(this, LoginActivity.class);
 //            startActivity(intent);
 
-            // Create new fragment and transaction
-            setContentView(R.layout.fragment_login);
-        }
+                            // Create new fragment and transaction
+                            setContentView(R.layout.activity_main);
+                            LoginFragment firstFragment = new LoginFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.mainA, firstFragment).commit();
+//            setContentView(R.layout.fragment_login);
+                        }
+                    }
+                }, 2000);
+
 
     }
 
 
-
-    public boolean checkPermission(String permission, Activity act){
+    public boolean checkPermission(String permission, Activity act) {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 permission)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +161,7 @@ public class InitialActivity extends AppCompatActivity {
         }
     }
 
-    public void updatePermission(String permission, Activity act){
+    public void updatePermission(String permission, Activity act) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(act,
                 permission)) {
             // Show an explanation to the user *asynchronously* -- don't block
@@ -154,7 +178,7 @@ public class InitialActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkInternetPermission(Activity act){
+    public boolean checkInternetPermission(Activity act) {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -177,7 +201,7 @@ public class InitialActivity extends AppCompatActivity {
         }
     }
 
-    public void updateInternetPermission(Activity act){
+    public void updateInternetPermission(Activity act) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(act,
                 Manifest.permission.INTERNET)) {
             // Show an explanation to the user *asynchronously* -- don't block
@@ -228,13 +252,13 @@ public class InitialActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Snackbar sn = Snackbar.make(findViewById(android.R.id.content),"Please press back again to exit", 2000);
+        Snackbar sn = Snackbar.make(findViewById(android.R.id.content), "Please press back again to exit", 2000);
         sn.show();
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -245,42 +269,21 @@ public class InitialActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 //        getMenuInflater().inflate(R.menu.menu, menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                //Called when a drawer's position changes.
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //Called when a drawer has settled in a completely open state.
-                //The drawer is interactive at this point.
-                // If you have 2 drawers (left and right) you can distinguish
-                // them by using id of the drawerView. int id = drawerView.getId();
-                // id will be your layout's id: for example R.id.left_drawer
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Called when a drawer has settled in a completely closed state.
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                // Called when the drawer motion state changes. The new state will be one of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
-            }
-        });
 
         return true;
     }
 
 
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+        String email = sharedpref.getString(EMAIL, "email");
+        String name = sharedpref.getString(NAME, "username");
+        TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
+        TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
+        emtv.setText(email);
+        ustv.setText(name);
         return true;
 
     }
@@ -291,9 +294,10 @@ public class InitialActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Log.d(id+" menu", "item selected");
+        Log.d(id + " menu", "item selected");
+
         //noinspection SimplifiableIfStatement
-        if( id == android.R.id.home){
+        if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
             Log.d("home shit", "did read the input");
             return true;
@@ -301,5 +305,30 @@ public class InitialActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class setAdmin extends AsyncTask<Admin, Integer, Long> {
+        String TAGB = "loginbackground";
+
+
+        @Override
+        protected Long doInBackground(Admin... admins) {
+            if (ad.AdDAO().findByName(admins[0].getGMAIL()) == null ) {
+                    ad.AdDAO().insert(admins[0]);
+                return (long) 1;
+            } else if (ad.AdDAO().findByName(admins[0].getGMAIL()) != null){
+                return (long) 1;
+            }
+            return (long) 0;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            if(aLong > 0){
+                Log.d("set admin", "onPostExecute: done");
+            } else {
+                Log.d("set admin", "onPostExecute: not done, useless shit");
+            }
+        }
     }
 }

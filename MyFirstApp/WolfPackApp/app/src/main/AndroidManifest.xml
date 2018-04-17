@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".DeclarationActivity" />
+        <activity android:name=".TogglActivity"></activity>
     </application>
 
 </manifest>

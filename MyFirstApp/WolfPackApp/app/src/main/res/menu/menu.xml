@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:showAsAction="never">
 
     <group android:checkableBehavior="single"
@@ -7,15 +8,19 @@
         <item
             android:id="@+id/nav_first_fragment"
             android:icon="@android:drawable/btn_dialog"
-            android:title="First" />
+            android:title="@string/payroll" />
         <item
             android:id="@+id/nav_second_fragment"
             android:icon="@android:drawable/checkbox_on_background"
-            android:title="Second" />
+            android:title="@string/logout" />
         <item
             android:id="@+id/nav_third_fragment"
             android:icon="@android:drawable/btn_star_big_on"
-            android:title="Third" />
+            android:title="@string/declarations" />
+        <item
+            android:id="@+id/nav_fourth_fragment"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="@string/toggl" />
         <item
             android:id="@+id/nl_switch"
             android:title="@string/Dutch"

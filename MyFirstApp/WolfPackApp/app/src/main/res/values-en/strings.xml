@@ -10,4 +10,7 @@
     <string name="Dutch">Dutch</string>
     <string name="English">English</string>
     <string name="Payment">Payment Service</string>
+    <string name="payroll">Payroll select</string>
+    <string name="logout">Log out</string>
+    <string name="signout">Sign out</string>
 </resources>

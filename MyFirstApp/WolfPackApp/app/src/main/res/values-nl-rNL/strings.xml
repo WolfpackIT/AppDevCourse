@@ -10,4 +10,7 @@
     <string name="Dutch">Nederlands</string>
     <string name="English">Engels</string>
     <string name="Payment">Betaal Service</string>
+    <string name="payroll">Payroll select</string>
+    <string name="logout">uitloggen</string>
+    <string name="signout">uitloggen</string>
 </resources>

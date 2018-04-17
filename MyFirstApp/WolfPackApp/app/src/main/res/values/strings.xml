@@ -11,4 +11,18 @@
     <string name="Dutch">Dutch</string>
     <string name="English">English</string>
     <string name="Payment">Payment Service</string>
+    <string name="payroll">Payroll select</string>
+    <string name="logout">Log out</string>
+    <string name="signout">Sign out</string>
+    <string name="wp">Wolfpack</string>
+    <string name="Wolfpack">WOLFPACK</string>
+    <string name="wplogo">Wolfpack logo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="declarations">Declarations</string>
+    <string name="declaration">Declaration</string>
+    <string name="toggl">toggl</string>
+    <string name="accepted">Accepted</string>
+    <string name="submitted">Submitted</string>
 </resources>

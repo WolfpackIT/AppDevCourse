@@ -1,4 +1,4 @@
-package com.example.wolfpackapp.MainActivityfragments;
+package com.example.wolfpackapp.StartUpFragments;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,19 +27,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.example.wolfpackapp.Database.EmpDB;
+import com.example.wolfpackapp.DeclarationActivity;
 import com.example.wolfpackapp.InitialActivity;
-import com.example.wolfpackapp.MainActivity;
+import com.example.wolfpackapp.MainActivityfragments.RSSRecycler;
 import com.example.wolfpackapp.R;
 import com.example.wolfpackapp.RssRecyclerview.Downloader;
-import com.example.wolfpackapp.StartUpFragments.LoginFragment;
+import com.example.wolfpackapp.TogglActivity;
 import com.example.wolfpackapp.adminDB.AdpDB;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -46,35 +46,34 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
-import java.util.concurrent.Executor;
 
+/**
+ * Created by Wolfpack on 4/17/2018.
+ */
 
-public class RSSRecycler extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment {
 
     String NAME = "voornaam";
     String EMAIL = "email";
-    final static String urlAddress="http://www.rtlnieuws.nl/service/rss/sport/voetbal/index.xml";
     Toolbar mToolbar;
     GoogleSignInClient mGoogleSignInClient;
     DrawerLayout mDrawerLayout;
     NavigationView navigationView;
     AdpDB ad;
-//    EmpDB db = Room.databaseBuilder(getActivity().getApplicationContext(),
-//            EmpDB.class, "Employee").build();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rssrecycler, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ad = Room.databaseBuilder(getContext(),
+                AdpDB.class, "Admin").build();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        ad = Room.databaseBuilder(getContext(),
-                AdpDB.class, "Admin").build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
         android.support.design.widget.AppBarLayout mAppBarLayout;
-        mToolbar = (Toolbar) view.findViewById(R.id.rssFeedToolbar);
-        initToolbar();
+        mToolbar = (Toolbar) view.findViewById(R.id.MainToolbar);
+
         return view;
     }
 
@@ -84,20 +83,8 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
         SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
-
         new verifyAdmin().execute(email);
-
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.fab2);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final RecyclerView rv= (RecyclerView) getActivity().findViewById(R.id.rv);
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                rv.setItemAnimator(new DefaultItemAnimator());
-                Log.d("RSSFragment", "did read the click");
-                new Downloader(getContext(),urlAddress,rv).execute();
-            }
-        });
+        initToolbar();
         NavigationView navigationView = getView().findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(
@@ -115,25 +102,28 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
                             setLocale("en");
                         } else if (menuItem.getItemId() == R.id.nav_second_fragment) {
                             signOut();
+                        } else if (menuItem.getItemId() == R.id.nav_third_fragment) {
+                            Intent intent = new Intent(getContext(), DeclarationActivity.class);
+                            startActivity(intent);
+                        } else if (menuItem.getItemId() == R.id.nav_fourth_fragment) {
+                            Intent intent = new Intent(getContext(), TogglActivity.class);
+                            startActivity(intent);
                         }
                         return true;
                     }
                 });
-//        mToolbar = (Toolbar) getView().findViewById(R.id.rssFeedToolbar);
     }
 
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener( getActivity(), new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        getActivity().setContentView(R.layout.activity_main);
-                        LoginFragment firstFragment = new LoginFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .add(R.id.mainA, firstFragment).commit();
-                    }
-                });
+    private void initToolbar() {
+        ImageView iv = (ImageView) getActivity().findViewById(R.id.toolView);
+        iv.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     public void setLocale(String lang) {
@@ -159,41 +149,19 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
         context.startActivity(intent);
     }
 
-    @Override
-    public void onClick(View view) {
-
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener( getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        getActivity().setContentView(R.layout.activity_main);
+                        LoginFragment firstFragment = new LoginFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .add(R.id.mainA, firstFragment).commit();
+                    }
+                });
     }
-
-    private void initToolbar() {
-        mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitle(R.string.app_name);
-//        mToolbar.showOverflowMenu();
-        ((AppCompatActivity ) getActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.common_google_signin_btn_text_light);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-//        navigationView = getView().findViewById(R.id.nav_view);
-//        Menu menu = navigationView.getMenu();
-//        String lang = Locale.getDefault().getLanguage();
-//        if (lang.equals("en")){
-//            MenuItem m1 = menu.findItem(R.id.en_switch);
-//            m1.setChecked(true);
-//            MenuItem m2 = menu.findItem(R.id.nl_switch);
-//            m2.setChecked(false);
-//        } else if (lang.equals("nl")){
-//            MenuItem m1 = menu.findItem(R.id.en_switch);
-//            m1.setChecked(false);
-//            MenuItem m2 = menu.findItem(R.id.nl_switch);
-//            m2.setChecked(true);
-//        } else {
-//            MenuItem m1 = menu.findItem(R.id.en_switch);
-//            m1.setChecked(true);
-//            MenuItem m2 = menu.findItem(R.id.nl_switch);
-//            m2.setChecked(false);
-//        }
-    }
-
 
     private class verifyAdmin extends AsyncTask<String, Integer, Long> {
         String TAGB = "loginbackground";
