@@ -1,5 +1,6 @@
 package com.example.wolfpackapp.DeclarationsFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,13 @@ import com.example.wolfpackapp.R;
  */
 
 public class DeclarationsAdapter extends FragmentStatePagerAdapter {
-    public DeclarationsAdapter(FragmentManager supportFragmentManager) {
-        super(supportFragmentManager);
+    int TABCOUNT;
+    private Context mContext;
+
+    public DeclarationsAdapter(Context context, FragmentManager fm) {
+        super(fm);
+        TABCOUNT = 2;
+        mContext = context;
     }
 
     @Override
@@ -34,7 +40,7 @@ public class DeclarationsAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return TABCOUNT;
     }
 
     @Nullable
@@ -43,16 +49,12 @@ public class DeclarationsAdapter extends FragmentStatePagerAdapter {
         //TODO change to strings.xml usage so R.string. ....
         switch (position){
             case 0:
-                return "submitted";
+                return mContext.getString(R.string.submitted);
             case 1:
-                return "accepted";
+                return mContext.getString(R.string.submitted);
             default:
                 return null;
         }
     }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return false;
-    }
 }

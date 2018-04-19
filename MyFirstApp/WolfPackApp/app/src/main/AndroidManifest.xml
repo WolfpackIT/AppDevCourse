@@ -27,7 +27,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".DeclarationActivity" />
-        <activity android:name=".TogglActivity"></activity>
+        <activity android:name=".TogglActivity" />
+        <activity android:name=".DeclarationsFragments.MyDeclaration"></activity>
     </application>
 
 </manifest>

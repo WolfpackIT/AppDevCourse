@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.wolfpackapp.DeclarationActivity;
 import com.example.wolfpackapp.InitialActivity;
@@ -51,15 +53,19 @@ import java.util.Locale;
  * Created by Wolfpack on 4/17/2018.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements DrawerLayout.DrawerListener {
 
     String NAME = "voornaam";
     String EMAIL = "email";
+    String ADMIN = "admin";
+
     Toolbar mToolbar;
     GoogleSignInClient mGoogleSignInClient;
     DrawerLayout mDrawerLayout;
     NavigationView navigationView;
     AdpDB ad;
+
+    DrawerLayout drawer;
 
     @Nullable
     @Override
@@ -84,6 +90,8 @@ public class MainFragment extends Fragment {
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
         new verifyAdmin().execute(email);
+        final DrawerLayout drawer=(DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        drawer.setDrawerListener(this);
         initToolbar();
         NavigationView navigationView = getView().findViewById(R.id.nav_view);
 
@@ -122,8 +130,10 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
                 mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
                 mDrawerLayout.openDrawer(GravityCompat.START);
+
             }
         });
+
     }
 
     public void setLocale(String lang) {
@@ -156,11 +166,55 @@ public class MainFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ...
                         getActivity().setContentView(R.layout.activity_main);
+                        SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                        String email = sharedpref.getString(EMAIL, "email");
+                        String name = sharedpref.getString(NAME, "username");
+
+
+                        SharedPreferences edit = getActivity().getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = edit.edit();
+                        editor.putString(EMAIL, "");
+                        editor.commit();
+
+                        SharedPreferences edit2 = getActivity().getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor2 = edit2.edit();
+                        editor2.putString(NAME, "");
+                        editor2.commit();
+
                         LoginFragment firstFragment = new LoginFragment();
                         getActivity().getSupportFragmentManager().beginTransaction()
                                 .add(R.id.mainA, firstFragment).commit();
                     }
                 });
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+        SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String email = sharedpref.getString(EMAIL, "email");
+        String name = sharedpref.getString(NAME, "username");
+
+        Log.d("main sso Miail",""+email);
+        Log.d("main sso name",""+name);
+        TextView emtv = (TextView) getActivity().findViewById(R.id.textViewEmailNav);
+        TextView ustv = (TextView) getActivity().findViewById(R.id.textViewUsernameNav);
+        emtv.setText(email);
+        ustv.setText(name);
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 
     private class verifyAdmin extends AsyncTask<String, Integer, Long> {
@@ -171,6 +225,10 @@ public class MainFragment extends Fragment {
             if (ad.AdDAO().findByName(strings[0]) != null)  {
                 Snackbar sn = Snackbar.make(getView(),"welcome admin", 1000 );
                 sn.show();
+                SharedPreferences edit2 = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = edit2.edit();
+                editor2.putBoolean(ADMIN, true);
+                editor2.commit();
                 Log.d("sso admin", "admin logged in");
                 return (long) 1;
             }
@@ -184,6 +242,12 @@ public class MainFragment extends Fragment {
             if (aLong > 0){
                 Snackbar sn = Snackbar.make(getView(),"welcome admin", 1000 );
                 sn.show();
+                SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String email = sharedpref.getString(EMAIL, "email");
+                String name = sharedpref.getString(NAME, "username");
+                Boolean x = sharedpref.getBoolean(ADMIN, false);
+
+
                 Log.d("sso ad", "onPostExecute: succes ");
             }
         }

@@ -138,10 +138,6 @@ public class LoginFragment extends Fragment {
             x.setFirstName(account.getDisplayName());
             x.setLastName(account.getFamilyName());
 
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String lat = sharedPref.getString(EMAIL, "0");
-            SharedPreferences sharedPref2 = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String lon = sharedPref2.getString(NAME, "0");
             new updateDatabase().execute(x);
 
 //            if (!db.EmpDAO().uidList(gID).isEmpty()) {
@@ -158,6 +154,8 @@ public class LoginFragment extends Fragment {
             SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
             String email = sharedpref.getString(EMAIL, "email");
             String name = sharedpref.getString(NAME, "username");
+            Log.d("sso Miail",""+email);
+            Log.d("sso name",""+name);
 
 
             SharedPreferences edit = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -176,6 +174,7 @@ public class LoginFragment extends Fragment {
             MainFragment firstFragment = new MainFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainA, firstFragment).commit();
+            Log.d("sso", "done logging in");
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

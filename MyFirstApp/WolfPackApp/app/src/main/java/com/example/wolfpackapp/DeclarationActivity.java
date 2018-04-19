@@ -2,6 +2,7 @@ package com.example.wolfpackapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -16,9 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.wolfpackapp.DeclarationsFragments.DeclarationsAdapter;
 import com.example.wolfpackapp.StartUpFragments.LoginFragment;
@@ -30,7 +33,10 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
 
-public class DeclarationActivity extends FragmentActivity {
+public class DeclarationActivity extends FragmentActivity implements DrawerLayout.DrawerListener{
+
+    String NAME = "voornaam";
+    String EMAIL = "email";
 
     DeclarationsAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
@@ -42,7 +48,7 @@ public class DeclarationActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_declaration);
         mDemoCollectionPagerAdapter =
-                new DeclarationsAdapter(getSupportFragmentManager());
+                new DeclarationsAdapter(this, getSupportFragmentManager());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -51,7 +57,8 @@ public class DeclarationActivity extends FragmentActivity {
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        final DrawerLayout drawer=(DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setDrawerListener(this);
         initToolbar();
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -81,6 +88,20 @@ public class DeclarationActivity extends FragmentActivity {
                     }
                 });
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+        String email = sharedpref.getString(EMAIL, "email");
+        String name = sharedpref.getString(NAME, "username");
+        TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
+        TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
+        emtv.setText(email);
+        ustv.setText(name);
+        return true;
+    }
+
 
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
@@ -130,4 +151,31 @@ public class DeclarationActivity extends FragmentActivity {
                 });
     }
 
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+        SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+        String email = sharedpref.getString(EMAIL, "email");
+        String name = sharedpref.getString(NAME, "username");
+        Log.d("main sso Miail",""+email);
+        Log.d("main sso name",""+name);
+        TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
+        TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
+        emtv.setText(email);
+        ustv.setText(name);
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
 }

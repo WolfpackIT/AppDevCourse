@@ -269,7 +269,15 @@ public class InitialActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 //        getMenuInflater().inflate(R.menu.menu, menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
+        SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+        String email = sharedpref.getString(EMAIL, "email");
+        String name = sharedpref.getString(NAME, "username");
+        Log.d("main sso Miail",""+email);
+        Log.d("main sso name",""+name);
+        TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
+        TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
+        emtv.setText(email);
+        ustv.setText(name);
         return true;
     }
 
@@ -280,6 +288,8 @@ public class InitialActivity extends AppCompatActivity {
         SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
+        Log.d("main sso Miail",""+email);
+        Log.d("main sso name",""+name);
         TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
         emtv.setText(email);
