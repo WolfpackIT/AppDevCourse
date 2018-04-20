@@ -45,8 +45,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public ViewHolder(View view) {
                 super(view);
                 view.setOnClickListener(this);
-                shout = (TextView) view.findViewById(R.id.content);
-            }
+                shout = (TextView) view.findViewById(R.id.content);            }
 
 
 

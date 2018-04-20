@@ -1,11 +1,14 @@
 package com.example.wolfpackapp;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -23,8 +26,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.wolfpackapp.DeclarationDatabase.DecDB;
+import com.example.wolfpackapp.DeclarationDatabase.Declaration;
+import com.example.wolfpackapp.DeclarationDatabase.DeclarationCar;
+import com.example.wolfpackapp.DeclarationDatabase.DeclarationOther;
 import com.example.wolfpackapp.DeclarationsFragments.DeclarationsAdapter;
 import com.example.wolfpackapp.StartUpFragments.LoginFragment;
+import com.example.wolfpackapp.decleratonRecyclerViewAdapter.DeclarationAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -43,6 +51,8 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
     GoogleSignInClient mGoogleSignInClient;
     DrawerLayout mDrawerLayout;
 
+    DecDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,9 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
+        db = Room.databaseBuilder(this,
+                DecDB.class, "Declaration").fallbackToDestructiveMigration().build();
+//        new setDummyContent().execute("");
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
@@ -176,6 +189,37 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
 
     @Override
     public void onDrawerStateChanged(int newState) {
+
+    }
+
+    private class setDummyContent extends AsyncTask<String, Integer, Long> {
+        String TAGB = "getDeclarations";
+
+        @Override
+        protected Long doInBackground(String... strings) {
+            Declaration x = new Declaration();
+            x.setTimestamp("4/20/2018");
+            x.setChecked(false);
+            x.setTitle("GRATIS GELD");
+            x.setCash(1010.10);
+            x.setEmail("martijn.ras96@gmail.com");
+            x.setUid(00004);
+            DeclarationOther y = new DeclarationOther();
+            y.setUid(00004);
+            y.setBtw(false);
+            y.setBtwCost(0);
+            y.setCost(50);
+            y.setTotalCost(50);
+            db.DecDAO().insert(x);
+            db.DecDAO().insertOther(y);
+
+            return (long) 0;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+
+        }
 
     }
 }

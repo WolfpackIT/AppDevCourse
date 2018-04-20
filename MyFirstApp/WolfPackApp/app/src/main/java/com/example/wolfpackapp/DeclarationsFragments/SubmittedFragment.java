@@ -2,6 +2,7 @@ package com.example.wolfpackapp.DeclarationsFragments;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wolfpackapp.Database.EmpDB;
@@ -43,12 +45,17 @@ public class SubmittedFragment extends Fragment {
     List<Declaration> vis;
     Boolean swipeRefresh = false;
 
+    //TODO add plus sign and intent with negative value put extra as intent
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_submitted_declarations, container, false);
         db = Room.databaseBuilder(getContext(),
-                DecDB.class, "Declaration").build();
+                DecDB.class, "Declaration").fallbackToDestructiveMigration().build();
+
         new getDeclarations().execute("");
 
         mRecyclerView = /** (RecyclerView) **/ view.findViewById(R.id.decList); //TODO add declist to fragment xml
@@ -77,7 +84,15 @@ public class SubmittedFragment extends Fragment {
                     }
                 }
         );
-
+        Button decBut = (Button) view.findViewById(R.id.newDeclaration);
+        decBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MyDeclaration.class);
+                intent.putExtra("id", -1);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -100,8 +115,7 @@ public class SubmittedFragment extends Fragment {
             if ( admin ){
              vis = db.DecDAO().getFullList(false);
             } else {
-                vis = db.DecDAO().getCheckedList(email, false);
-            }
+                vis = db.DecDAO().getCheckedList(email, false);            }
 
             return (long) 0;
         }

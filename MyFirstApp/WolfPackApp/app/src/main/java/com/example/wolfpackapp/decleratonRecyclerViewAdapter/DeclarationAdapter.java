@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.example.wolfpackapp.DeclarationDatabase.Declaration;
+import com.example.wolfpackapp.DeclarationsFragments.MyDeclaration;
 import com.example.wolfpackapp.R;
 
 
@@ -22,10 +23,13 @@ public class DeclarationAdapter extends RecyclerView.Adapter<DeclarationAdapter.
     public List<Declaration> shouts;
     private Context mContext;
 
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView shout;
         TextView date;
         TextView money;
+        Long uid;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -37,8 +41,9 @@ public class DeclarationAdapter extends RecyclerView.Adapter<DeclarationAdapter.
 
         @Override
         public void onClick(View view) {
-
-
+            Intent intent = new Intent(mContext, MyDeclaration.class);
+            intent.putExtra("id", uid);
+            mContext.startActivity(intent);
         }
     }
 
@@ -59,10 +64,12 @@ public class DeclarationAdapter extends RecyclerView.Adapter<DeclarationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Declaration shout = shouts.get(position);
-        holder.shout.setText(shout.getTitle());
-        holder.money.setText(Double.toString(shout.getMoney()));
-        holder.date.setText(shout.getTimestamp());
+        Declaration shout1 = shouts.get(position);
+        holder.shout.setText(shout1.getTitle());
+//        holder.money.setText(Double.toString(shout1.getMoney()));
+        holder.date.setText(shout1.getTimestamp());
+        holder.uid = shout1.getUid();
+        holder.money.setText(Double.toString(shout1.getCash()));
     }
 
     @Override

@@ -2,12 +2,16 @@ package com.example.wolfpackapp.DeclarationDatabase;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-/**
- * Created by Wolfpack on 4/19/2018.
- */
-@Entity
-public class DeclarationCar extends Declaration {
+@Entity(tableName = "carDeclarations")
+public class DeclarationCar {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "CarDeclarationIdentifier")
+    private long uid;
+
     @ColumnInfo(name = "StartPoint")
     private String van;
 
@@ -16,6 +20,16 @@ public class DeclarationCar extends Declaration {
 
     @ColumnInfo(name = "distance")
     private double kilometers;
+
+
+    @NonNull
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(@NonNull long uid) {
+        this.uid = uid;
+    }
 
     public String getVan() {
         return van;
@@ -40,5 +54,4 @@ public class DeclarationCar extends Declaration {
     public void setKilometers(double kilometers) {
         this.kilometers = kilometers;
     }
-
 }

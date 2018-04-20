@@ -25,4 +25,6 @@
     <string name="toggl">toggl</string>
     <string name="accepted">Accepted</string>
     <string name="submitted">Submitted</string>
+    <string name="general">General</string>
+    <string name="kilometer">Kilometers</string>
 </resources>
