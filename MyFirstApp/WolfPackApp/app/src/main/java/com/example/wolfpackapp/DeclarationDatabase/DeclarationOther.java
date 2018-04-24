@@ -9,8 +9,15 @@ import android.support.annotation.NonNull;
 public class DeclarationOther {
     @PrimaryKey
     @NonNull
+    @ColumnInfo(name = "otherID")
+    private long oID;
+
+    @NonNull
     @ColumnInfo(name = "OtherDeclarationIdentifier")
     private long uid;
+
+    @ColumnInfo(name = "Description")
+    private String des;
 
     @ColumnInfo(name = "BTW")
     private boolean btw;
@@ -24,6 +31,14 @@ public class DeclarationOther {
     @ColumnInfo(name = "TotalCost")
     private double totalCost;
 
+    @NonNull
+    public long getOID() {
+        return oID;
+    }
+
+    public void setOID(@NonNull long oID) {
+        this.oID = oID;
+    }
 
     public double getTotalCost() {
         return totalCost;
@@ -64,5 +79,14 @@ public class DeclarationOther {
 
     public void setUid(@NonNull long uid) {
         this.uid = uid;
+    }
+
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
     }
 }

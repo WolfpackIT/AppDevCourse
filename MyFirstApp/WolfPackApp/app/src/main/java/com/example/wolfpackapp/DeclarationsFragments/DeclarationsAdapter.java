@@ -51,7 +51,7 @@ public class DeclarationsAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return mContext.getString(R.string.submitted);
             case 1:
-                return mContext.getString(R.string.submitted);
+                return mContext.getString(R.string.accepted);
             default:
                 return null;
         }

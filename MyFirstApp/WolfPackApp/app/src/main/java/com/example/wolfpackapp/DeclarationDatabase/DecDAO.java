@@ -18,9 +18,14 @@ import java.util.List;
 @Dao
 public interface DecDAO {
     //Init query
-    @Query("SELECT * FROM declaration JOIN carDeclarations ON DeclarationIdentifier = CarDeclarationIdentifier")
-    List<Declaration> getCarDec();
+//    @Query("SELECT * FROM declaration JOIN carDeclarations ON DeclarationIdentifier = CarDeclarationIdentifier")
+//    List<Declaration> getCarDec();
 
+    @Query("SELECT DISTINCT DeclarationIdentifier FROM declaration WHERE DeclarationIdentifier NOT IN ( SELECT d.DeclarationIdentifier FROM declaration as d  JOIN declaration as t ON d.DeclarationIdentifier < t.DeclarationIdentifier )")
+    long getMaxDecID();
+
+    @Query("SELECT MAX(DeclarationIdentifier) FROM declaration")
+    long getMaxID();
     //initDeclaration only queries
     @Query("SELECT * FROM Declaration")
     List<Declaration> getAll();
@@ -71,7 +76,11 @@ public interface DecDAO {
     List<DeclarationCar> getAllCars();
 
     @Query("SELECT * FROM carDeclarations WHERE CarDeclarationIdentifier = (:userIds)")
-    DeclarationCar loadAllByCarIds(long userIds);
+    List<DeclarationCar> loadAllByCarIds(long userIds);
+
+
+    @Query("SELECT MAX(carID) FROM carDeclarations")
+    long getMaxcID();
 
     @Insert
     void insertAllcars(DeclarationCar... decs);
@@ -102,7 +111,10 @@ public interface DecDAO {
     List<DeclarationOther> getAllOthers();
 
     @Query("SELECT * FROM otherdeclarations WHERE OtherDeclarationIdentifier = (:userIds)")
-    DeclarationOther loadAllByOtherIds(long userIds);
+    List<DeclarationOther> loadAllByOtherIds(long userIds);
+
+    @Query("SELECT MAX(otherID) FROM otherdeclarations")
+    long getMaxoID();
 
     @Insert
     void insertAllOthers(DeclarationOther... decs);

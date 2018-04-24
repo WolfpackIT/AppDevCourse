@@ -2,11 +2,13 @@ package com.example.wolfpackapp.DeclarationsFragments;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,14 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wolfpackapp.DeclarationDatabase.DecDB;
 import com.example.wolfpackapp.R;
+import com.example.wolfpackapp.StartUpFragments.LoginFragment;
 
 public class KilometerDeclarationFragment extends Fragment {
     String TAGB = "help";
+    String NAME = "voornaam";
+    String EMAIL = "email";
+    String ADMIN = "admin";
 
     TextView ed5;
     EditText ed4;
@@ -46,35 +53,82 @@ public class KilometerDeclarationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         db = Room.databaseBuilder(getContext(),
                 DecDB.class, "Declaration").build();
-        if (MyDeclaration.car != null) {
-            Log.d(TAGB, MyDeclaration.car.getNaar());
-            Log.d(TAGB, MyDeclaration.car.getVan());
-            Log.d(TAGB, Double.toString(MyDeclaration.car.getKilometers()));
-            ed = view.findViewById(R.id.CarDecEdStart);
+        ed = view.findViewById(R.id.CarDecEdStart);
+        ed2 = view.findViewById(R.id.CarDecEdEnd);
+        ed3 = view.findViewById(R.id.CarDecTextDate);
+        ed4 = view.findViewById(R.id.CarDecEdDistance);
+        ed5 = view.findViewById(R.id.CarDecTotalprice);
+        if (MyDeclaration.info.getTitle() != null) {
+//            Log.d(TAGB, MyDeclaration.car.getNaar());
+//            Log.d(TAGB, MyDeclaration.car.getVan());
+//            Log.d(TAGB, Double.toString(MyDeclaration.car.getKilometers()));
             ed.setText((CharSequence) MyDeclaration.car.getVan());
-            ed2 = view.findViewById(R.id.CarDecEdEnd);
             ed2.setText((CharSequence) MyDeclaration.car.getNaar());
-            ed3 = view.findViewById(R.id.CarDecTextDate);
             ed3.setText((CharSequence) MyDeclaration.info.getTimestamp());
-            ed4 = view.findViewById(R.id.CarDecEdDistance);
             ed4.setText((CharSequence) Double.toString(MyDeclaration.car.getKilometers()));
-            ed5 = view.findViewById(R.id.CarDecTotalprice);
             ed5.setText((CharSequence) Double.toString(MyDeclaration.info.getCash()));
+        } else {
+
         }
+        ImageButton dis = view.findViewById(R.id.imageButton5);
+        dis.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                discard();
+            }
+        });
+        ImageButton ais = view.findViewById(R.id.imageButton6);
+        ais.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                accept();
+            }
+        });
     }
 
     @Override
     public void onDestroy() {
-        accept();
         super.onDestroy();
     }
 
     public void discard(){
-
+        getActivity().onBackPressed();
     }
 
     public void accept(){
-        new updateDeclarations().execute("");
+        if( ed.getText().toString().matches("") || ed2.getText().toString().matches("") || ed3.getText().toString().matches("") || ed4.getText().toString().matches("")){
+            Snackbar sn = Snackbar.make(getView(), "One or more fields have not been properly filled in yet", 1000);
+            sn.show();
+        } else if( MyDeclaration.car != null) {
+            new updateDeclarations().execute("");
+        } else {
+            new createDeclaration().execute("");
+        }
+    }
+
+    private class createDeclaration extends AsyncTask<String, Integer, Long> {
+        String TAGB = "updateDeclarations database";
+
+        @Override
+        protected Long doInBackground(String... value) {
+            MyDeclaration.car.setVan( (ed.getText()).toString());
+            MyDeclaration.car.setNaar( (ed2.getText()).toString());
+            MyDeclaration.car.setKilometers(  Double.parseDouble(ed4.getText().toString()));
+            long sUID = (long) 6; //TODO get latest and add one to setuid;
+            MyDeclaration.car.setUid(sUID); //TODO get latest and add one to setuid;
+
+            MyDeclaration.info.setCash(Double.parseDouble(ed4.getText().toString())*0.19);
+            getActivity().setContentView(R.layout.activity_main);
+            AddDeclarationFragment firstFragment = new AddDeclarationFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mainA, firstFragment).commit();
+            return (long) 0;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+
+        }
     }
 
     private class updateDeclarations extends AsyncTask<String, Integer, Long> {
@@ -94,6 +148,7 @@ public class KilometerDeclarationFragment extends Fragment {
             if(!ed4.getText().equals(MyDeclaration.car.getKilometers())){
                 MyDeclaration.car.setKilometers(  Double.parseDouble(ed4.getText().toString()));
             }
+            //TODO make sure that a new oid is made and set
             //TODO MyDeclaration.info.setCash(double)
             db.DecDAO().updateDec(MyDeclaration.info);
 

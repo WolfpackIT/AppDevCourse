@@ -77,7 +77,7 @@ public class InitialActivity extends AppCompatActivity {
             }, 2000);   //5 seconds
             closeNow();
         }
-        if (!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this)) {
+        if (!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this) && !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, this) && !checkPermission(Manifest.permission.MANAGE_DOCUMENTS, this) && !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,this) && !checkPermission(Manifest.permission.CAMERA, this) && !checkPermission(Manifest.permission.RECORD_AUDIO,this)) {
             Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
             sn.show();
             Handler handler = new Handler();

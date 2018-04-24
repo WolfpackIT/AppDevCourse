@@ -115,7 +115,8 @@ public class SubmittedFragment extends Fragment {
             if ( admin ){
              vis = db.DecDAO().getFullList(false);
             } else {
-                vis = db.DecDAO().getCheckedList(email, false);            }
+                vis = db.DecDAO().getCheckedList(email, false);
+            }
 
             return (long) 0;
         }

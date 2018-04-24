@@ -38,6 +38,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MyDeclaration extends FragmentActivity {
 
@@ -48,7 +51,7 @@ public class MyDeclaration extends FragmentActivity {
     DecDB db;
     static Declaration info;
     static DeclarationCar car;
-    DeclarationOther general;
+    static DeclarationOther general;
 
     DeclarationsAdapterAdapterV2 mDemoCollectionPagerAdapter;
     CustomViewpager mViewPager;
@@ -81,6 +84,17 @@ public class MyDeclaration extends FragmentActivity {
 
 
         } else {
+            car = new DeclarationCar();
+            info = new Declaration();
+            general = new DeclarationOther();
+            new getMaxID().execute((long) 1);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String currentDateandTime = sdf.format(new Date());
+            MyDeclaration.info.setTimestamp(currentDateandTime); //TODo set timestamp
+            SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+            String email = sharedpref.getString(EMAIL, "email");
+            MyDeclaration.info.setEmail(email);
+            MyDeclaration.info.setChecked(false);
             mViewPager.setPagingEnabled(true);
             TabLayout tabLayout = (TabLayout) findViewById(R.id.decSlidingTabs);
             tabLayout.setupWithViewPager(mViewPager);
@@ -90,6 +104,31 @@ public class MyDeclaration extends FragmentActivity {
 
     }
 
+    private class getMaxID extends AsyncTask<Long, Integer, Long> {
+        String TAGB = "setText";
+
+
+        @Override
+        protected Long doInBackground(Long... value) {
+          long x = db.DecDAO().getMaxID();
+            info.setUid(x+1);
+            long y = db.DecDAO().getMaxcID();
+            long z = db.DecDAO().getMaxoID();
+            car.setCID(y);
+            general.setOID(z);
+            car.getCID();
+            general.getOID();
+            db.DecDAO().getMaxcID();
+            db.DecDAO().getMaxoID();
+            return (long) x;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+
+        }
+    }
+
     private class getDeclarations extends AsyncTask<Long, Integer, Long> {
         String TAGB = "setText";
 
@@ -97,8 +136,8 @@ public class MyDeclaration extends FragmentActivity {
         protected Long doInBackground(Long... value) {
             long id = value[0];
             info = db.DecDAO().loadSingleByIds(id);
-            car = db.DecDAO().loadAllByCarIds(id);
-            general = db.DecDAO().loadAllByOtherIds(id);
+            car = db.DecDAO().loadAllByCarIds(id).get(0);
+            general = db.DecDAO().loadAllByOtherIds(id).get(0);
             if (car != null){
 
                 return (long) 2;
