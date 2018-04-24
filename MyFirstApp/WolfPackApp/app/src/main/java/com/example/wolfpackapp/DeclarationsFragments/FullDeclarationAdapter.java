@@ -18,6 +18,7 @@ import com.example.wolfpackapp.R;
 
 
 import java.util.List;
+//TODO fix this in a way so that one list contains all declaratiions and their data. 
 
 
 public class FullDeclarationAdapter extends RecyclerView.Adapter<FullDeclarationAdapter.ViewHolder> {
