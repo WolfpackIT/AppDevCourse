@@ -66,29 +66,31 @@ public class InitialActivity extends AppCompatActivity {
         x.setUid("00001");
         new setAdmin().execute(x);
         final Context context = getApplicationContext();
-        if (!checkInternetPermission(this)) {
-            Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
-            sn.show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    closeNow();
-                }
-            }, 2000);   //5 seconds
-            closeNow();
-        }
-        if (!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this) && !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, this) && !checkPermission(Manifest.permission.MANAGE_DOCUMENTS, this) && !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,this) && !checkPermission(Manifest.permission.CAMERA, this) && !checkPermission(Manifest.permission.RECORD_AUDIO,this)) {
-            Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
-            sn.show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    closeNow();
-                }
-            }, 2000);   //5 seconds
+        Intent intent = getIntent();
+        if(intent.getLongExtra("init", -1) < 0) {
+            if (!checkInternetPermission(this)) {
+                Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
+                sn.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        closeNow();
+                    }
+                }, 2000);   //5 seconds
+                closeNow();
+            }
+            if (!checkPermission(Manifest.permission.ACCESS_WIFI_STATE, this) && !checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, this) && !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, this) && !checkPermission(Manifest.permission.MANAGE_DOCUMENTS, this) && !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, this) && !checkPermission(Manifest.permission.CAMERA, this) && !checkPermission(Manifest.permission.RECORD_AUDIO, this)) {
+                Snackbar sn = Snackbar.make(parentLayout, "please give us the permission or the app won't run", 1900);
+                sn.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        closeNow();
+                    }
+                }, 2000);   //5 seconds
 //            closeNow();
-        }
-        if (isNetworkConnected()) {
+            }
+            if (isNetworkConnected()) {
 //            if( !isInternetAvailable() ){
 //                Snackbar sn = Snackbar.make(parentLayout,"No internet access," +
 //                        " please provide internet access", 1900 );
@@ -100,41 +102,68 @@ public class InitialActivity extends AppCompatActivity {
 //                    }
 //                }, 2000);   //5 seconds
 //            }
-        } else {
+            } else {
 
-        }
-        Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context);
-                        if (lastSignedInAccount != null) {
-                            // user has already logged in, you can check user's email, name etc from lastSignedInAccount
-                            String email = lastSignedInAccount.getEmail();
+            }
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context);
+                    if (lastSignedInAccount != null) {
+                        // user has already logged in, you can check user's email, name etc from lastSignedInAccount
+                        String email = lastSignedInAccount.getEmail();
 //                            Snackbar sn = Snackbar.make(, email, 1900);
 //                            sn.show();
-                            //intent to go to main menu.
+                        //intent to go to main menu.
 //            Intent intent = new Intent(this, MainActivity.class);
 //            startActivity(intent);
-                            setContentView(R.layout.activity_main);
-                            MainFragment firstFragment = new MainFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.mainA, firstFragment).commit();
-                        } else {
-                            // intent to start login screen
+                        setContentView(R.layout.activity_main);
+                        MainFragment firstFragment = new MainFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.mainA, firstFragment).commit();
+                    } else {
+                        // intent to start login screen
 //              Intent intent = new Intent(this, LoginActivity.class);
 //            startActivity(intent);
 
-                            // Create new fragment and transaction
-                            setContentView(R.layout.activity_main);
-                            LoginFragment firstFragment = new LoginFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.mainA, firstFragment).commit();
+                        // Create new fragment and transaction
+                        setContentView(R.layout.activity_main);
+                        LoginFragment firstFragment = new LoginFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.mainA, firstFragment).commit();
 //            setContentView(R.layout.fragment_login);
-                        }
                     }
-                }, 2000);
+                }
+            }, 2000);
 
+        } else {
+            GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(context);
+            if (lastSignedInAccount != null) {
+                // user has already logged in, you can check user's email, name etc from lastSignedInAccount
+                String email = lastSignedInAccount.getEmail();
+//                            Snackbar sn = Snackbar.make(, email, 1900);
+//                            sn.show();
+                //intent to go to main menu.
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+                setContentView(R.layout.activity_main);
+                MainFragment firstFragment = new MainFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mainA, firstFragment).commit();
+            } else {
+                // intent to start login screen
+//              Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
 
+                // Create new fragment and transaction
+                setContentView(R.layout.activity_main);
+                LoginFragment firstFragment = new LoginFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.mainA, firstFragment).commit();
+//            setContentView(R.layout.fragment_login);
+            }
+        }
     }
 
 
@@ -272,7 +301,7 @@ public class InitialActivity extends AppCompatActivity {
         SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
-        Log.d("main sso Miail",""+email);
+        Log.d("mailtest init act", email);
         Log.d("main sso name",""+name);
         TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
@@ -288,7 +317,7 @@ public class InitialActivity extends AppCompatActivity {
         SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
-        Log.d("main sso Miail",""+email);
+        Log.d("mailtest init act tab", email);
         Log.d("main sso name",""+name);
         TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);

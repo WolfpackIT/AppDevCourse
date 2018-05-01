@@ -6,6 +6,10 @@
     <group android:checkableBehavior="single"
             app:showAsAction="never">
         <item
+            android:id="@+id/navHome"
+            android:icon="@android:drawable/checkbox_on_background"
+            android:title="@string/logout" />
+        <item
             android:id="@+id/nav_first_fragment"
             android:icon="@android:drawable/btn_dialog"
             android:title="@string/payroll" />
@@ -13,6 +17,7 @@
             android:id="@+id/nav_second_fragment"
             android:icon="@android:drawable/checkbox_on_background"
             android:title="@string/logout" />
+
         <item
             android:id="@+id/nav_third_fragment"
             android:icon="@android:drawable/btn_star_big_on"

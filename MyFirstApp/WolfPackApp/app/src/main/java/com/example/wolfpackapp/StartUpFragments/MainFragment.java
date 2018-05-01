@@ -88,6 +88,7 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
         super.onViewCreated(view, savedInstanceState);
         SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
+        Log.d("mailtest main", email);
         String name = sharedpref.getString(NAME, "username");
         new verifyAdmin().execute(email);
         final DrawerLayout drawer=(DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -115,6 +116,11 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
                             startActivity(intent);
                         } else if (menuItem.getItemId() == R.id.nav_fourth_fragment) {
                             Intent intent = new Intent(getContext(), TogglActivity.class);
+                            startActivity(intent);
+                        } else if(menuItem.getItemId() == R.id.navHome){
+                            Intent intent = new Intent(getContext(), InitialActivity.class);
+                            intent.putExtra("init", (long) 5);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }
                         return true;
@@ -144,6 +150,7 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
         Intent refresh = new Intent(getContext(), InitialActivity.class);
+        refresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(refresh);
 //        finish();
     }
@@ -168,6 +175,7 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
                         getActivity().setContentView(R.layout.activity_main);
                         SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
                         String email = sharedpref.getString(EMAIL, "email");
+                        Log.d("mailtest main logout", email);
                         String name = sharedpref.getString(NAME, "username");
 
 
@@ -197,9 +205,10 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
     public void onDrawerOpened(@NonNull View drawerView) {
         SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
+        Log.d("mailtest main tab", email);
         String name = sharedpref.getString(NAME, "username");
 
-        Log.d("main sso Miail",""+email);
+        Log.d("mailtest main tab", email);
         Log.d("main sso name",""+name);
         TextView emtv = (TextView) getActivity().findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) getActivity().findViewById(R.id.textViewUsernameNav);
@@ -226,8 +235,11 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
                 Snackbar sn = Snackbar.make(getView(),"welcome admin", 1000 );
                 sn.show();
                 SharedPreferences edit2 = getActivity().getPreferences(Context.MODE_PRIVATE);
+                String email = edit2.getString(EMAIL, "email");
+                Log.d("mailtest main back", email);
                 SharedPreferences.Editor editor2 = edit2.edit();
                 editor2.putBoolean(ADMIN, true);
+                editor2.putString(EMAIL, email);
                 editor2.commit();
                 Log.d("sso admin", "admin logged in");
                 return (long) 1;
@@ -244,6 +256,7 @@ public class MainFragment extends Fragment implements DrawerLayout.DrawerListene
                 sn.show();
                 SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 String email = sharedpref.getString(EMAIL, "email");
+                Log.d("mailtest main back post", email);
                 String name = sharedpref.getString(NAME, "username");
                 Boolean x = sharedpref.getBoolean(ADMIN, false);
 

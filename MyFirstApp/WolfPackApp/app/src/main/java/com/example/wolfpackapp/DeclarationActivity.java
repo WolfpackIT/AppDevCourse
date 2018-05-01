@@ -96,6 +96,11 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
                         } else if (menuItem.getItemId() == R.id.nav_fourth_fragment) {
                             Intent intent = new Intent( getApplicationContext() ,TogglActivity.class);
                             startActivity(intent);
+                        } else if(menuItem.getItemId() == R.id.navHome){
+                            Intent intent = new Intent(getApplicationContext() , InitialActivity.class);
+                            intent.putExtra("init", (long) 5);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }
                         return true;
                     }
@@ -107,6 +112,7 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
         super.onPrepareOptionsMenu(menu);
         SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
+        Log.d("mailtest dec act", email);
         String name = sharedpref.getString(NAME, "username");
         TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);
@@ -174,7 +180,7 @@ public class DeclarationActivity extends FragmentActivity implements DrawerLayou
         SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
         String name = sharedpref.getString(NAME, "username");
-        Log.d("main sso Miail",""+email);
+        Log.d("mailtest dec act tab", email);
         Log.d("main sso name",""+name);
         TextView emtv = (TextView) findViewById(R.id.textViewEmailNav);
         TextView ustv = (TextView) findViewById(R.id.textViewUsernameNav);

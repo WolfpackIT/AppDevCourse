@@ -30,7 +30,7 @@ public interface DecDAO {
     @Query("SELECT * FROM Declaration")
     List<Declaration> getAll();
 
-    @Query("SELECT * FROM Declaration WHERE DeclarationIdentifier IN (:userIds)")
+    @Query("SELECT * FROM Declaration WHERE DeclarationIdentifier = (:userIds)")
     List<Declaration> loadAllByIds(int[] userIds);
 
     @Query("SELECT * FROM declaration WHERE DeclarationIdentifier = (:userIds)")
@@ -78,6 +78,9 @@ public interface DecDAO {
     @Query("SELECT * FROM carDeclarations WHERE CarDeclarationIdentifier = (:userIds)")
     List<DeclarationCar> loadAllByCarIds(long userIds);
 
+    @Query("SELECT * FROM carDeclarations WHERE CarID = (:userIds)")
+    DeclarationCar loadSingleCar(long userIds);
+
 
     @Query("SELECT MAX(carID) FROM carDeclarations")
     long getMaxcID();
@@ -112,6 +115,9 @@ public interface DecDAO {
 
     @Query("SELECT * FROM otherdeclarations WHERE OtherDeclarationIdentifier = (:userIds)")
     List<DeclarationOther> loadAllByOtherIds(long userIds);
+
+    @Query("SELECT * FROM otherdeclarations WHERE OtherDeclarationIdentifier = (:userIds)")
+    DeclarationOther loadSingleOther(long userIds);
 
     @Query("SELECT MAX(otherID) FROM otherdeclarations")
     long getMaxoID();

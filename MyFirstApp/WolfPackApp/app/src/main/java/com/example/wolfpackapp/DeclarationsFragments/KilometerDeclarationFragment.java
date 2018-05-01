@@ -2,6 +2,7 @@ package com.example.wolfpackapp.DeclarationsFragments;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -58,7 +59,7 @@ public class KilometerDeclarationFragment extends Fragment {
         ed3 = view.findViewById(R.id.CarDecTextDate);
         ed4 = view.findViewById(R.id.CarDecEdDistance);
         ed5 = view.findViewById(R.id.CarDecTotalprice);
-        if (MyDeclaration.info.getTitle() != null) {
+        if (MyDeclaration.newDecCar == false) {
 //            Log.d(TAGB, MyDeclaration.car.getNaar());
 //            Log.d(TAGB, MyDeclaration.car.getVan());
 //            Log.d(TAGB, Double.toString(MyDeclaration.car.getKilometers()));
@@ -99,9 +100,11 @@ public class KilometerDeclarationFragment extends Fragment {
         if( ed.getText().toString().matches("") || ed2.getText().toString().matches("") || ed3.getText().toString().matches("") || ed4.getText().toString().matches("")){
             Snackbar sn = Snackbar.make(getView(), "One or more fields have not been properly filled in yet", 1000);
             sn.show();
-        } else if( MyDeclaration.car != null) {
+        } else if( MyDeclaration.newDecCar == false ) {
+            Log.d("kilo", "update old");
             new updateDeclarations().execute("");
         } else {
+            Log.d("kilo", "create new");
             new createDeclaration().execute("");
         }
     }
@@ -114,20 +117,32 @@ public class KilometerDeclarationFragment extends Fragment {
             MyDeclaration.car.setVan( (ed.getText()).toString());
             MyDeclaration.car.setNaar( (ed2.getText()).toString());
             MyDeclaration.car.setKilometers(  Double.parseDouble(ed4.getText().toString()));
-            long sUID = (long) 6; //TODO get latest and add one to setuid;
-            MyDeclaration.car.setUid(sUID); //TODO get latest and add one to setuid;
+            long sUID = (long) MyDeclaration.car.getUid(); //TODO get latest and add one to setuid;
+//            MyDeclaration.info.setUid(sUID); //TODO get latest and add one to setuid;
+            SharedPreferences sharedpref = getActivity().getSharedPreferences(EMAIL,Context.MODE_PRIVATE);
+            String email = sharedpref.getString(EMAIL, "email");
+            Log.d("mailtest kilo", email);
+            String name = sharedpref.getString(NAME, "username");
+            Boolean admin = sharedpref.getBoolean(ADMIN, false);
 
-            MyDeclaration.info.setCash(Double.parseDouble(ed4.getText().toString())*0.19);
-            getActivity().setContentView(R.layout.activity_main);
-            AddDeclarationFragment firstFragment = new AddDeclarationFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mainA, firstFragment).commit();
+//            MyDeclaration.info.setCash(Double.parseDouble(ed4.getText().toString()));
+            db.DecDAO().insertCar(MyDeclaration.car);
+//            db.DecDAO().insert(MyDeclaration.info);
+//            getActivity().setContentView(R.layout.activity_main);
+//            AddDeclarationFragment firstFragment = new AddDeclarationFragment();
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.mainA, firstFragment).commit();
             return (long) 0;
         }
 
         @Override
         protected void onPostExecute(Long aLong) {
-
+            Intent intent = new Intent(getContext(), AddDeclarationFragment.class);
+            intent.putExtra("info", MyDeclaration.car.getUid());
+            intent.putExtra("cid", MyDeclaration.car.getCID());
+            intent.putExtra("car", true);
+            intent.putExtra("general", false);
+            startActivity(intent);
         }
     }
 
@@ -159,7 +174,12 @@ public class KilometerDeclarationFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Long aLong) {
-
+            Intent intent = new Intent(getContext(), AddDeclarationFragment.class);
+            intent.putExtra("info", MyDeclaration.info.getUid());
+            intent.putExtra("cid", MyDeclaration.car.getCID());
+            intent.putExtra("car", true);
+            intent.putExtra("general", false);
+            startActivity(intent);
         }
     }
 }

@@ -39,7 +39,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 public class MyDeclaration extends FragmentActivity {
@@ -52,6 +54,9 @@ public class MyDeclaration extends FragmentActivity {
     static Declaration info;
     static DeclarationCar car;
     static DeclarationOther general;
+    static boolean newDec;
+    static boolean newDecCar;
+    boolean infob;
 
     DeclarationsAdapterAdapterV2 mDemoCollectionPagerAdapter;
     CustomViewpager mViewPager;
@@ -65,9 +70,7 @@ public class MyDeclaration extends FragmentActivity {
                 DecDB.class, "Declaration").build();
         Intent intent = getIntent();
         Long value = intent.getLongExtra("id", -1);
-
-
-
+        Long newID = intent.getLongExtra("new", -1);
         mDemoCollectionPagerAdapter =
                 new DeclarationsAdapterAdapterV2(this, getSupportFragmentManager());
 
@@ -78,12 +81,24 @@ public class MyDeclaration extends FragmentActivity {
 
 
         if(value >= 0){
+            infob = true;
             new getDeclarations().execute(value);
             mViewPager.setPagingEnabled(false);
 
-
+        } else if (newID > 0){
+            car = new DeclarationCar();
+            general = new DeclarationOther();
+            info.setUid(newID);
+            car.setUid(newID);
+            infob = false;
+            new getDeclarations().execute((long) -5, value);
+            new getMaxID().execute();
+            mViewPager.setPagingEnabled(true);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.decSlidingTabs);
+            tabLayout.setupWithViewPager(mViewPager);
 
         } else {
+            infob = true;
             car = new DeclarationCar();
             info = new Declaration();
             general = new DeclarationOther();
@@ -91,17 +106,17 @@ public class MyDeclaration extends FragmentActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String currentDateandTime = sdf.format(new Date());
             MyDeclaration.info.setTimestamp(currentDateandTime); //TODo set timestamp
-            SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
-            String email = sharedpref.getString(EMAIL, "email");
+            SharedPreferences sharedpref;
+            sharedpref = this.getPreferences(Context.MODE_PRIVATE);
+            String email;
+            email = sharedpref.getString(EMAIL, "test");
+            Log.d("mailtest my dec", email);
             MyDeclaration.info.setEmail(email);
             MyDeclaration.info.setChecked(false);
             mViewPager.setPagingEnabled(true);
             TabLayout tabLayout = (TabLayout) findViewById(R.id.decSlidingTabs);
             tabLayout.setupWithViewPager(mViewPager);
         }
-
-
-
     }
 
     private class getMaxID extends AsyncTask<Long, Integer, Long> {
@@ -110,17 +125,23 @@ public class MyDeclaration extends FragmentActivity {
 
         @Override
         protected Long doInBackground(Long... value) {
-          long x = db.DecDAO().getMaxID();
-            info.setUid(x+1);
+            SharedPreferences sharedpref = getPreferences(Context.MODE_PRIVATE);
+            String email = sharedpref.getString(EMAIL, "email");
+            Log.d("mailtest my dec backgr", email);
+            String name = sharedpref.getString(NAME, "username");
+            Boolean admin = sharedpref.getBoolean(ADMIN, false);
+            if (infob) {
+                long x = db.DecDAO().getMaxID();
+                info.setUid(x + 1);
+            }
             long y = db.DecDAO().getMaxcID();
             long z = db.DecDAO().getMaxoID();
-            car.setCID(y);
-            general.setOID(z);
-            car.getCID();
-            general.getOID();
+            car.setCID(y+1);
+            general.setOID(z+1);
+
             db.DecDAO().getMaxcID();
             db.DecDAO().getMaxoID();
-            return (long) x;
+            return (long) y;
         }
 
         @Override
@@ -134,27 +155,41 @@ public class MyDeclaration extends FragmentActivity {
 
         @Override
         protected Long doInBackground(Long... value) {
-            long id = value[0];
-            info = db.DecDAO().loadSingleByIds(id);
-            car = db.DecDAO().loadAllByCarIds(id).get(0);
-            general = db.DecDAO().loadAllByOtherIds(id).get(0);
-            if (car != null){
 
-                return (long) 2;
-            } else if (general != null ){
-                return (long) 1;
+            long id = value[0];
+            if(id >= 0) {
+                info = db.DecDAO().loadSingleByIds(id);
+                car = db.DecDAO().loadSingleCar(id);
+                general = db.DecDAO().loadSingleOther(id);
+                if (car != null) {
+                    Log.d(TAGB, "car is not null");
+                    return (long) 2;
+                } else if (general != null) {
+                    Log.d(TAGB, "other is not null");
+                    return (long) 1;
 //                mViewPager.setCurrentItem(0);
 //                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //                tabLayout.setupWithViewPager(mViewPager);
 
+                } else {
+                    Log.d(TAGB, "something went wrong ");
+                }
             } else {
-                Log.d(TAGB, "something went wrong ");
+
             }
-            return (long) 0;
+            id = value[1];
+            info = new Declaration();
+            info = db.DecDAO().loadSingleByIds(id);
+//                info.setUid(id);
+            newDec = true;
+            newDecCar = true;
+            Log.d("mydec", "new decs");
+            return(long) 0;
         }
 
         @Override
         protected void onPostExecute(Long aLong) {
+
             if(aLong == 2) {
                 mViewPager.setCurrentItem(1);
                 TabLayout tabLayout = (TabLayout) findViewById(R.id.decSlidingTabs);
@@ -167,6 +202,9 @@ public class MyDeclaration extends FragmentActivity {
                             return true;
                         }
                     });
+                    newDecCar = false;
+                    newDec = true;
+                    Log.d("mydec", "car decs");
                 }
             } else if (aLong == 1){
                 mViewPager.setCurrentItem(0);
@@ -180,7 +218,14 @@ public class MyDeclaration extends FragmentActivity {
                             return true;
                         }
                     });
+                    newDec = false;
+                    newDecCar=true;
+                    Log.d("mydec", "general/ other decs");
                 }
+            } else {
+                newDec = true;
+                newDecCar = true;
+                Log.d("mydec", "new decs");
             }
 
         }

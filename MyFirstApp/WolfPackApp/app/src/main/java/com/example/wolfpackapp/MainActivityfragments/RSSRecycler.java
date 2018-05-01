@@ -83,6 +83,7 @@ public class RSSRecycler extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String email = sharedpref.getString(EMAIL, "email");
+        Log.d("mailtest rss rec", email);
         String name = sharedpref.getString(NAME, "username");
 
         new verifyAdmin().execute(email);

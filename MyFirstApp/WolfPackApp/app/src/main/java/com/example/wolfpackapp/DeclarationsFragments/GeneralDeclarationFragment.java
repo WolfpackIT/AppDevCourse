@@ -2,6 +2,7 @@ package com.example.wolfpackapp.DeclarationsFragments;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class GeneralDeclarationFragment extends Fragment {
         sed = view.findViewById(R.id.switch1);
 
 
-        if (MyDeclaration.info.getTitle() != null) {
+        if (MyDeclaration.newDec != true && MyDeclaration.newDecCar == true) {
 
             ed.setText((CharSequence) MyDeclaration.general.getDes());
 
@@ -122,17 +123,28 @@ public class GeneralDeclarationFragment extends Fragment {
             MyDeclaration.general.setCost( Double.parseDouble(ed3.getText().toString()));
             MyDeclaration.info.setTimestamp( (ed2.getText()).toString());
             MyDeclaration.general.setDes( (ed.getText()).toString());
+            MyDeclaration.general.setUid(MyDeclaration.info.getUid());
+            MyDeclaration.general.setBtw(sed.isActivated());
 
-            getActivity().setContentView(R.layout.activity_main);
-            AddDeclarationFragment firstFragment = new AddDeclarationFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mainA, firstFragment).commit();
+//            getActivity().setContentView(R.layout.activity_main);
+            db.DecDAO().insertOther(MyDeclaration.general);
+            db.DecDAO().insert(MyDeclaration.info);
+
+
+//            AddDeclarationFragment firstFragment = new AddDeclarationFragment();
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.mainA, firstFragment).commit();
             return (long) 0;
         }
 
         @Override
         protected void onPostExecute(Long aLong) {
-
+            Intent intent = new Intent(getContext(), AddDeclarationFragment.class);
+            intent.putExtra("info", MyDeclaration.info.getUid());
+            intent.putExtra("cid", MyDeclaration.general.getOID());
+            intent.putExtra("car", false);
+            intent.putExtra("general", true);
+            startActivity(intent);
         }
     }
 

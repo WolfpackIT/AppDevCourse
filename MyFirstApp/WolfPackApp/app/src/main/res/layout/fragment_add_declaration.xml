@@ -59,6 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/FullDecList"
             android:layout_width="368dp"

@@ -154,7 +154,8 @@ public class LoginFragment extends Fragment {
             SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
             String email = sharedpref.getString(EMAIL, "email");
             String name = sharedpref.getString(NAME, "username");
-            Log.d("sso Miail",""+email);
+            Log.d("mailtest LoginAct", email);
+            Log.d("mailtest login act acc", account.getEmail());
             Log.d("sso name",""+name);
 
 

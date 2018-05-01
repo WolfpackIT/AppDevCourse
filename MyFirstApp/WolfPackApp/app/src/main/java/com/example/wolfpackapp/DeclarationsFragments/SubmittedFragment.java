@@ -53,6 +53,7 @@ public class SubmittedFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_submitted_declarations, container, false);
+
         db = Room.databaseBuilder(getContext(),
                 DecDB.class, "Declaration").fallbackToDestructiveMigration().build();
 
@@ -109,13 +110,15 @@ public class SubmittedFragment extends Fragment {
         protected Long doInBackground(String... strings) {
             SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
             String email = sharedpref.getString(EMAIL, "email");
+            Log.d("mailtest submfrag", email);
             String name = sharedpref.getString(NAME, "username");
             Boolean admin = sharedpref.getBoolean(ADMIN, false);
             //if is admin
             if ( admin ){
-             vis = db.DecDAO().getFullList(false);
+             vis = db.DecDAO().getAll();
             } else {
-                vis = db.DecDAO().getCheckedList(email, false);
+//                vis = db.DecDAO().getCheckedList(email, false);
+                vis = db.DecDAO().getAll();
             }
 
             return (long) 0;
