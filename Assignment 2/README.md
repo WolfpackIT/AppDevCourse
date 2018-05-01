@@ -1,5 +1,5 @@
-# Assignment 2: Mailing a pictue
-Continue building on what you have made in APPDEV-12
+﻿# Assignment 2: Mailing a pictue
+Continue building on what you have made in Assignment 1
 
 ## Reading materials
 - App Data & Files

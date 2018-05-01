@@ -1,5 +1,5 @@
 # Assignment 3: Adding tabs
-Continue building on what you have made in APPDEV-14
+Continue building on what you have made in Assignment 2
 
 ## Reading materials
 - User interface and & navigation

@@ -1,5 +1,5 @@
-# Assignment 5: Adding Wiggle
-Continue building on what you have made in APPDEV-26
+﻿# Assignment 5: Adding Wiggle
+Continue building on what you have made in Assignment 4
 
 ## Reading materials
 - Sensors

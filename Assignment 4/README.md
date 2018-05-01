@@ -1,5 +1,5 @@
-# Assignment 4: Add Geofencing
-Continue building on what you have made in APPDEV-19
+﻿# Assignment 4: Add Geofencing
+Continue building on what you have made in Assignment 3
 
 ## Reading materials
 - User interface and & navigation
