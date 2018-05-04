@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nl.wolfpackit.callemailapp.CallWPActivity">
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="nl.wolfpackit.callemailapp.ClickToContinueFragment"
+        android:layout_width="197dp"
+        android:layout_height="215dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="130dp" />
+</android.support.constraint.ConstraintLayout>
