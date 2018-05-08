@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WolfpackAssignment</string>
+    <string name="button_Email">Email WP Office</string>
+    <string name="button_call">Call WP Office</string>
+    <string name="button_emailNow">mail now</string>
+    <string name="button_callNow">call now</string>
+</resources>
