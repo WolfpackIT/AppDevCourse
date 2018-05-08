@@ -31,6 +31,14 @@ public class CallWPActivity extends AppCompatActivity {
     public void initiatePhoneCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:0407820814"));
+		
+		// Formally you would need to have
+		// the permission android.Manifest.permission.CALL_PHONE
+		// granted by the time you start the intent
+
+		// In reference to this, I also placed a comment
+		// in the manifest, in which you would have to
+		// add that permission as well.
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
