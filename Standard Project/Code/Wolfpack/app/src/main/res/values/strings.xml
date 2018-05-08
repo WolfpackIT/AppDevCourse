@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Wolfpack</string>
+    <string name="title_activity_signin">signin</string>
+
+    <!--navigation-->
+    <string name="nav_news">NEWS</string>
+    <string name="nav_declarations">DECLARATIONS</string>
+    <string name="nav_foodOrder">ORDER FOOD</string>
+    <string name="nav_theWolfs">THE WOLFS</string>
+    <string name="nav_wiki">WOLFSWIKI</string>
+
+    <!--account menu-->
+    <string name="account_profile">PROFILE</string>
+    <string name="account_settings">SETTINGS</string>
+    <string name="account_signout">SIGN OUT</string>
+
+    <!--profile page-->
+    <string name="profile_date">Date of birth</string>
+    <string name="profile_city">City</string>
+    <string name="profile_number">Phone number</string>
+    <string name="profile_IBAN">IBAN</string>
+    <string name="profile_allergies">Allergies</string>
+
+    <!--personal info-->
+    <string name="title_activity_profile">Wolfpack profile</string>
+
+    <!--news articles-->
+    <string name="title_activity_article">Wolfpack article</string>
+    <string name="article_data">[days] day(s) ago - [times]x read</string>
+
+    <!--declarations-->
+    <string name="title_activity_declaration_creation">New declaration</string>
+    <string name="title_activity_declaration_add">Add new declaration</string>
+
+    <string name="declarations_submitted">Submitted</string>
+    <string name="declarations_accepted">Accepted</string>
+    <string name="declarations_search">Search</string>
+    <string name="declarations_months">Jan,Feb,Mar,Apr,May,June,July,Aug,Sept,Oct,Nov,Dec</string>
+
+    <string name="declaration_name">Name declaration</string>
+    <string name="declaration_submit">Submit declaration</string>
+    <string name="declaration_total">Total</string>
+
+    <string name="declaration_tab_general">General</string>
+    <string name="declaration_tab_distance">Kilometers</string>
+
+    <string name="declaration_description">Description</string>
+    <string name="declaration_date">Date</string>
+    <string name="declaration_receipt">Receipt</string>
+    <string name="declaration_BTWused">BTW applied?</string>
+    <string name="declaration_yes">Yes</string>
+    <string name="declaration_no">No</string>
+    <string name="declaration_amount">Amount</string>
+    <string name="declaration_BTWamount">BTW</string>
+
+    <string name="declaration_from">From</string>
+    <string name="declaration_to">To</string>
+    <string name="declaration_distance">Distance</string>
+    <string name="declaration_distance_unit">KM</string>
+    <string name="declaration_compensation">Compensation</string>
+    <string name="declaration_money_unit">€</string>
+    <string name="declaration_times">X</string>
+    <string name="declaration_date_format_message">Please use the format \'d-m-y\'</string>
+    <string name="declaration_incorrect_btw_message">Watch out, the provided\nBTW amount is incorrect</string>
+</resources>

@@ -1,0 +1,220 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/declarationDistanceFromLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/declaration_from"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/declarationDistanceFromText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/declaration_line_background"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceFromLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceFromLabel" />
+
+    <TextView
+        android:id="@+id/declarationDistanceToLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_to"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceFromText"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceFromText" />
+
+    <EditText
+        android:id="@+id/declarationDistanceToText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/declaration_line_background"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceToLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceToLabel" />
+
+    <TextView
+        android:id="@+id/declarationDistanceDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_date"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceToText" />
+
+    <EditText
+        android:id="@+id/declarationDistanceDateText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/declaration_line_background"
+        android:ems="10"
+        android:inputType="date"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceFromLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceDateLabel" />
+
+    <TextView
+        android:id="@+id/declarationDistanceReceiptLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_receipt"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceDateText" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/declarationDistanceReceiptContainer"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/declarationDistanceReceiptLabel" />
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/declarationDistanceReceiptBorder"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@drawable/declaration_line_background"
+        app:layout_constraintEnd_toEndOf="@+id/declarationDistanceFromText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceFromText"
+        app:layout_constraintTop_toBottomOf="@id/declarationDistanceReceiptContainer">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/declarationDistanceKMLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_distance"
+        android:textColor="@color/greyFontColor"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceReceiptLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceReceiptContainer" />
+
+    <TextView
+        android:id="@+id/declarationDistanceCompensationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/declaration_compensation"
+        android:textColor="@color/greyFontColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/declarationGeneralCompensationContainer"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralCompensationContainer" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/declarationDistanceKMContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/declaration_line_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationDistanceKMLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationDistanceKMLabel">
+
+        <TextView
+            android:id="@+id/declarationDistanceKMUnitSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/declaration_distance_unit"
+            android:textColor="@color/greyFontColor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/declarationDistanceKMText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/declarationDistanceKMText"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="Name"
+            android:textColor="@color/whiteFontColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/declarationDistanceKMUnitSymbol" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/declarationDistanceTimesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/declaration_times"
+        android:textColor="@color/greyFontColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/declarationDistanceKMContainer" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/declarationGeneralCompensationContainer"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/declarationDistanceTimesLabel"
+        app:layout_constraintTop_toTopOf="@+id/declarationDistanceTimesLabel">
+
+        <TextView
+            android:id="@+id/declarationDistanceCompensationUnitSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/declaration_money_unit"
+            android:textColor="@color/greyFontColor"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/declarationDistanceCompensationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/whiteFontColor"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/declarationDistanceCompensationUnitSymbol" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nl.wolfpackit.wolfpack">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="android.support.multidex.MultiDexApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".modules.BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.SigninActivity"
+            android:label="@string/title_activity_signin"
+            android:noHistory="true"
+            android:theme="@style/splashScreenTheme"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".modules.news.NewsArticleActivity"
+            android:label="@string/title_activity_article"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.PersonalInfoActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".modules.declarations.add.DeclarationCreationActivity"
+            android:label="@string/title_activity_declaration_creation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".modules.declarations.add.DeclarationAddActivity"
+            android:label="@string/title_activity_declaration_add"
+            android:theme="@style/AppTheme.NoActionBar" />
+    </application>
+
+</manifest>

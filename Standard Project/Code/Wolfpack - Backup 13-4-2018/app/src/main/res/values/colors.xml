@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3f51b5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorAccent">#af2e3d</color>
+    <color name="colorAccentDarker">#642e3d</color>
+
+    <color name="profileRing">#99AAAAAA</color>
+
+
+    <color name="navItemDeselectedFont">#33FFFFFF</color>
+    <color name="whiteFontColor">#ffffff</color>
+    <color name="greyFontColor">#77ffffff</color>
+    <color name="blackFontColor">#000000</color>
+
+
+    <color name="whiteBackground">#ffffff</color>
+    <color name="navItemSelectedBg">#32323C4C</color>
+    <color name="navItemSelectedAccent">@color/colorAccent</color>
+    <color name="navItemSelectedAccentDarker">@color/colorAccentDarker</color>
+
+    <color name="greyBackground">#ebebeb</color>
+
+    <!--personal info-->
+    <color name="profileBackground">#66CC0000</color>
+    <color name="profileEditToolbar">#1AFFFFFF</color>
+</resources>
+

@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Wolfpack</string>
+    <string name="title_activity_signin">signin</string>
+
+    <!--navigation-->
+    <string name="nav_news">NEWS</string>
+    <string name="nav_declarations">DECLARATIONS</string>
+    <string name="nav_foodOrder">ORDER FOOD</string>
+    <string name="nav_theWolfs">THE WOLFS</string>
+    <string name="nav_wiki">WOLFSWIKI</string>
+
+    <!--account menu-->
+    <string name="account_profile">PROFILE</string>
+    <string name="account_settings">SETTINGS</string>
+    <string name="account_signout">SIGN OUT</string>
+
+    <!--profile page-->
+    <string name="profile_date">Date of birth</string>
+    <string name="profile_city">City</string>
+    <string name="profile_number">Phone number</string>
+    <string name="profile_IBAN">IBAN</string>
+    <string name="profile_allergies">Allergies</string>
+
+    <!--personal info-->
+    <string name="title_activity_profile">Wolfpack profile</string>
+
+    <!--news articles-->
+    <string name="title_activity_article">Wolfpack article</string>
+    <string name="article_data">[days] day(s) ago - [times]x read</string>
+
+    <!--declarations-->
+    <string name="declarations_submitted">Submitted</string>
+    <string name="declarations_accepted">Accepted</string>
+</resources>

@@ -1,0 +1,74 @@
+<diagram version="14.2" program="umletino"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>540</x><y>350</y><w>210</w><h>170</h></coordinates><panel_attributes>Declaration
+--
+ID: Long
+--
+name: String
+description: String
+date: Timestamp
+hasBTW: Boolean
+amount: Float
+amountBTW: Float
+_receiptID: Long_
+_ownerID: Long_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>850</x><y>330</y><w>210</w><h>120</h></coordinates><panel_attributes>Travel Declaration
+--
+ID: Long
+--
+_declarationID: Long_
+startCity: String
+endCity: String
+date: Timestamp
+distance: Float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>230</x><y>350</y><w>210</w><h>160</h></coordinates><panel_attributes>User
+--
+ID: Long
+--
+googleID: ?
+name: String
+_roleID: Long_
+city: String
+phoneNumber: String
+IBAN: String
+Allergies: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>230</x><y>570</y><w>210</w><h>90</h></coordinates><panel_attributes>Role
+--
+ID: Long
+--
+name: String
+description: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>850</x><y>570</y><w>210</w><h>100</h></coordinates><panel_attributes>Declaration Feedback
+--
+ID: Long
+--
+_declarationID: Long_
+approved: Boolean
+feedback: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>850</x><y>460</y><w>210</w><h>100</h></coordinates><panel_attributes>Receipt
+--
+ID: Long
+--
+name: String
+type: String
+data: String (base64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>130</y><w>210</w><h>160</h></coordinates><panel_attributes>Nieuws
+--
+ID: Long
+--
+title: String
+content: String
+date: Timestamp
+image: String (base64)
+_authorID: Long_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>360</y><w>130</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=1
+</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>510</y><w>180</w><h>120</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=1
+</panel_attributes><additional_attributes>160;90;10;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>470</y><w>130</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>500</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1
+</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>170</y><w>240</w><h>200</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1
+</panel_attributes><additional_attributes>220;20;10;20;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>380</y><w>130</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1
+</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element></diagram>

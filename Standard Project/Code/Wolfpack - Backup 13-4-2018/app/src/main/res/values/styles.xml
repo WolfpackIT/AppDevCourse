@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccentDarker</item>
+        <item name="colorAccent">@color/whiteFontColor</item>
+        <item name="android:textColor">@color/blackFontColor</item>
+
+        <!--set the correct padding for the navigation menu-->
+        <item name="listPreferredItemHeightSmall">62dp</item>
+        <item name="listPreferredItemPaddingLeft">52dp</item>
+
+        <!--color for the options menu-->
+        <!--<item name="android:actionMenuTextColor">@color/blackFontColor</item>-->
+    </style>
+
+    <style name="toolBarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/whiteFontColor</item>
+        <item name="android:textColorSecondary">@color/whiteFontColor</item>
+        <item name="actionMenuTextColor">@color/whiteFontColor</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="splashScreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@drawable/menu_bg
+        </item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="navStyle">
+        <item name="android:textSize">14sp</item>
+        <!--font is a placeholder as custom fonts don't appear to work within a style xml-->
+        <!--the font will programmatically be changed in BaseActivity's setupDrawerStyling method.-->
+        <item name="android:typeface">monospace</item>
+    </style>
+</resources>

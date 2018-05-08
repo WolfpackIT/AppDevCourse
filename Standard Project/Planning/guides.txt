@@ -1,0 +1,10 @@
+guides:
+-splash screen: https://stackoverflow.com/a/15832037 / https://android.jlelse.eu/launch-screen-in-android-the-right-way-aca7e8c31f52
+-sso: https://developers.google.com/identity/sign-in/android/sign-in
+-menu: https://developer.android.com/training/implementing-navigation/nav-drawer.html
+-opening files: https://developer.android.com/guide/topics/providers/document-provider.html
+-local database: https://developer.android.com/training/data-storage/room/index.html
+-language support: https://developer.android.com/training/basics/supporting-devices/languages.html#UseAppResources
+-file saving/loading:
+	load: https://stackoverflow.com/a/6828668 / https://examples.javacodegeeks.com/core-java/io/bufferedoutputstream/write-byte-array-to-file-with-bufferedoutputstream/
+	save: https://stackoverflow.com/a/41838608

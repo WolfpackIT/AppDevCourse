@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/toolbar_gradient"
+        tools:context="nl.wolfpackit.wolfpack.modules.declarations.add.DeclarationCreationActivity">
+
+        <ImageButton
+            android:id="@+id/declarationCancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/x" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/declarationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/declaration_line_background">
+
+            <TextView
+                android:id="@+id/declarationNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="76dp"
+                android:text="@string/declaration_name"
+                android:textColor="@color/greyFontColor"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/declarationName"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="@drawable/declaration_line_background"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:text=""
+                android:textColor="@color/whiteFontColor"
+                app:layout_constraintStart_toStartOf="@+id/declarationNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/declarationNameLabel" />
+
+            <TextView
+                android:id="@+id/declarationCharacters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="TextView"
+                android:textColor="@color/greyFontColor"
+                app:layout_constraintEnd_toEndOf="@+id/declarationName"
+                app:layout_constraintTop_toBottomOf="@+id/declarationName" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/declarationDeclarations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/declarationHeader">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <ImageButton
+            android:id="@+id/declarationAddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="154dp"
+            android:background="@null"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+        <TextView
+            android:id="@+id/declarationSumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="132dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/declaration_total"
+            android:textColor="@color/whiteFontColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/declarationDeclarations" />
+
+        <TextView
+            android:id="@+id/declarationSumUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/declaration_money_unit"
+            android:textColor="@color/whiteFontColor"
+            app:layout_constraintEnd_toStartOf="@+id/declarationSumText"
+            app:layout_constraintTop_toTopOf="@+id/declarationSumLabel" />
+
+        <TextView
+            android:id="@+id/declarationSumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="TextView"
+            android:textColor="@color/whiteFontColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/declarationSumUnit" />
+
+        <Button
+            android:id="@+id/declarationSubmitButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/declaration_submit_button_background"
+            android:maxHeight="200dp"
+            android:text="@string/declaration_submit"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

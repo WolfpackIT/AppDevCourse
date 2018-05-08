@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/declarationsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/declarationsHeaderBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/menu_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/declarationsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@null"
+            android:elevation="4dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:theme="@style/toolBarStyle"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/declarationsTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/declarationsToolbar"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/whiteFontColor"
+            app:tabTextColor="@color/greyFontColor">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/declarationsAccepted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/declarations_accepted" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/declarationsSubmitted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/declarations_submitted" />
+
+        </android.support.design.widget.TabLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/declarationsPages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/declarationsHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/declarationsHeader" />
+</android.support.constraint.ConstraintLayout>

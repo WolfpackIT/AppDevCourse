@@ -1,0 +1,260 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/declarationGeneralDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/declaration_description"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/declarationGeneralDescriptionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/declaration_line_background"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:maxLength="50"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralDescriptionLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralDescriptionLabel" />
+
+    <TextView
+        android:id="@+id/declarationGeneralDescriptionCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintEnd_toEndOf="@+id/declarationGeneralDescriptionText"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralDescriptionText" />
+
+    <TextView
+        android:id="@+id/declarationGeneralDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_date"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralDescriptionText" />
+
+    <EditText
+        android:id="@+id/declarationGeneralDateText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/declaration_line_background"
+        android:ems="10"
+        android:inputType="date"
+        android:text="Name"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralDescriptionLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralDateLabel" />
+
+    <TextView
+        android:id="@+id/declarationGeneralReceiptLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/declaration_receipt"
+        android:textColor="@color/greyFontColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralDateText" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/declarationGeneralReceiptContainer"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/declarationGeneralReceiptLabel" />
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/declarationGeneralReceiptBorder"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@drawable/declaration_line_background"
+        app:layout_constraintEnd_toEndOf="@+id/declarationGeneralDescriptionText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralDescriptionText"
+        app:layout_constraintTop_toBottomOf="@id/declarationGeneralReceiptContainer">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/declarationGeneralBTWLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/declaration_BTWused"
+        android:textColor="@color/whiteFontColor"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralDateText"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralReceiptContainer" />
+
+    <Switch
+        android:id="@+id/declarationGeneralBTWSwitch"
+        style="@style/switchStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/declaration_no"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toStartOf="@+id/declarationGeneralBTWSwitchLabel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/declarationGeneralBTWLabel" />
+
+    <TextView
+        android:id="@+id/declarationGeneralBTWSwitchLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/declaration_yes"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintEnd_toEndOf="@+id/declarationGeneralReceiptBorder"
+        app:layout_constraintTop_toTopOf="@+id/declarationGeneralBTWLabel" />
+
+    <TextView
+        android:id="@+id/declarationGeneralAmountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/declaration_amount"
+        android:textColor="@color/greyFontColor"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralBTWLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralBTWLabel" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/declarationGeneralTotalContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/declaration_line_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/declarationGeneralAmountLabel"
+        app:layout_constraintTop_toBottomOf="@+id/declarationGeneralAmountLabel">
+
+        <TextView
+            android:id="@+id/declarationGeneralAmountUnitSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/declaration_money_unit"
+            android:textColor="@color/greyFontColor"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/declarationGeneralAmountText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="Name"
+            android:textColor="@color/whiteFontColor"
+            app:layout_constraintStart_toEndOf="@+id/declarationGeneralAmountUnitSymbol"
+            app:layout_constraintTop_toTopOf="@+id/declarationGeneralAmountUnitSymbol" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/declarationGeneralBTWAlertLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/declaration_btw_alert_background"
+        android:includeFontPadding="true"
+        android:padding="10dp"
+        android:text="@string/declaration_incorrect_btw_message"
+        android:textColor="@color/whiteFontColor"
+        app:layout_constraintBottom_toTopOf="@+id/declarationGeneralBTWContainerOuter"
+        app:layout_constraintEnd_toEndOf="@+id/declarationGeneralBTWContainerOuter" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/declarationGeneralBTWContainerOuter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/declaration_line_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/declarationGeneralBTWSwitchLabel"
+        app:layout_constraintTop_toTopOf="@+id/declarationGeneralAmountLabel">
+
+        <TextView
+            android:id="@+id/declarationGeneralBTWAmountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/declaration_BTWamount"
+            android:textColor="@color/greyFontColor"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/declarationGeneralBTWContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/declaration_line_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/declarationGeneralBTWAmountLabel"
+            app:layout_constraintTop_toBottomOf="@+id/declarationGeneralBTWAmountLabel">
+
+            <ImageView
+                android:id="@+id/declarationGeneralBTWAlert"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+            <TextView
+                android:id="@+id/declarationGeneralBTWAmountUnitSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/declaration_money_unit"
+                android:textColor="@color/greyFontColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/declarationGeneralBTWAmountText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="Name"
+                android:textColor="@color/whiteFontColor"
+                app:layout_constraintStart_toEndOf="@+id/declarationGeneralBTWAmountUnitSymbol"
+                app:layout_constraintTop_toTopOf="@+id/declarationGeneralBTWAmountUnitSymbol" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

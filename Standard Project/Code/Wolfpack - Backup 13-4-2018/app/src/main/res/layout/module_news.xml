@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyBackground"
+    tools:context="nl.wolfpackit.wolfpack.modules.news.NewsModule">
+    <!--android:id="@+id/frameLayout"-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/toolbar_gradient" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/newsToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:theme="@style/toolBarStyle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:subtitleTextColor="@color/whiteFontColor"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
+    <!--<TextView-->
+    <!--android:id="@+id/textView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="This is just some filler text" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/newsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newsToolbar">
+
+    </android.support.v7.widget.RecyclerView>
+</android.support.constraint.ConstraintLayout>

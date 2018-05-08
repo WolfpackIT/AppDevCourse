@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/news"
+            android:checkableBehavior="single"
+            android:icon="@drawable/menu_news"
+            android:title="@string/nav_news"/>
+        <item
+            android:id="@+id/declarations"
+            android:checkableBehavior="single"
+            android:icon="@drawable/menu_declarations"
+            android:title="@string/nav_declarations" />
+        <item
+            android:id="@+id/foodOrders"
+            android:checkableBehavior="single"
+            android:icon="@drawable/menu_orderfood"
+            android:title="@string/nav_foodOrder" />
+        <item
+            android:id="@+id/theWolfs"
+            android:checkableBehavior="single"
+            android:icon="@drawable/menu_thewolfs"
+            android:title="@string/nav_theWolfs" />
+        <item
+            android:id="@+id/wiki"
+            android:checkableBehavior="single"
+            android:title="@string/nav_wiki" />
+        <!--android:icon="@drawable/ic_menu_manage"-->
+    </group>
+</menu>
