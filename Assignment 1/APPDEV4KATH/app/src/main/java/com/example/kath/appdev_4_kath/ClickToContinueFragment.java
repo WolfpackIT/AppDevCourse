@@ -54,7 +54,7 @@ public class ClickToContinueFragment extends Fragment {
     private void goToMailFragment() {
        Log.d(TAG, "Inside goToMailFragment");
 
-       Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
+       Intent mailIntent = new Intent(Intent.ACTION_SEND);
        mailIntent.setType("text/plain");
        mailIntent.putExtra(Intent.EXTRA_EMAIL, "rene.le.clercq@wolfpackit.nl");
        mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello World!");
