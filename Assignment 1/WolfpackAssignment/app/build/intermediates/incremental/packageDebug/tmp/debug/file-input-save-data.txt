@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Tue May 08 13:57:27 CEST 2018
-0.baseType=DIRECTORY
-0.base=/Users/kath/AndroidStudioProjects/WolfpackAssignment/app/build/intermediates/transforms/dexMerger/debug/189
-0.path=classes.dex
-0.set=DEX
-count=1

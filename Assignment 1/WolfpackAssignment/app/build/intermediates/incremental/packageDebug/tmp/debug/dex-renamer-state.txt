@@ -1,4 +1,0 @@
-#Tue May 08 13:57:27 CEST 2018
-base.0=/Users/kath/AndroidStudioProjects/WolfpackAssignment/app/build/intermediates/transforms/dexMerger/debug/189
-path.0=classes.dex
-renamed.0=classes.dex
