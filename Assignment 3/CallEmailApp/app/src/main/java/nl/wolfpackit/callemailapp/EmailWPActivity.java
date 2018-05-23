@@ -64,7 +64,8 @@ public class EmailWPActivity extends AppCompatActivity {
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setContentTitle("Email sent!")
                         .setContentText("Sent a picture to Rene!")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setSmallIcon(R.drawable.ic_launcher_background);
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                 notificationManager.notify(123, mBuilder.build());
             }
