@@ -147,24 +147,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //FEEDBACK
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_IMAGE && resultCode == RESULT_OK) {
-            Toast.makeText(this, "Picture was successfully taken", Toast.LENGTH_SHORT).show();
-            isPhotoTaken = true;
-            if(isPhotoTaken && isNameWritten){
-                btnCall.setEnabled(true);
-                btnEmail.setEnabled(true);
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == REQUEST_TAKE_IMAGE && resultCode == RESULT_OK) {
+                Toast.makeText(this, "Picture was successfully taken", Toast.LENGTH_SHORT).show();
+                isPhotoTaken = true;
+                if(isPhotoTaken && isNameWritten){
+                    btnCall.setEnabled(true);
+                    btnEmail.setEnabled(true);
+                }
+            } else {
+                Toast.makeText(this, "Picture was not successfully taken", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "Picture was not successfully taken", Toast.LENGTH_SHORT).show();
-        }
     }
 
     //SAVE KEY DATA VALUE
 
     String text;
-
     private void saveEditTextData() {
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_NAME", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
