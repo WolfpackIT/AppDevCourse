@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">CallEmailApp</string>
+    <string name="emailOfficeButton">Email WP Office</string>
+    <string name="callOfficeButton">Call WP office</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mail_now_button">MAIL NOW</string>
+    <string name="call_now_button">CALL NOW</string>
+    <string name="takePictureButton">Take picture</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="contact_wolfpack_tab">Contact Wolfpack</string>
+    <string name="shout_tab">Shout!</string>
+    <string name="geofencing">Geofencing</string>
+    <string name="location_permission">You need to give us the permission to get your location</string>
+    <string name="retrieving_location_issue">Due to an unknown issue we were not able to retrieve your location</string>
+    <string name="channel_name">Geofencing notification</string>
+    <string name="channel_description">The notification that you get everytime you get close to the Wolfpack office</string>
+    <string name="office_latitude">51.449404</string>
+    <string name="office_longitude">5.494952</string>
+</resources>
