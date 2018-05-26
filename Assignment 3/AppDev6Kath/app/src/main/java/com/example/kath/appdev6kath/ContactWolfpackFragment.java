@@ -1,15 +1,20 @@
 package com.example.kath.appdev6kath;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +34,7 @@ import java.util.Date;
 
 public class ContactWolfpackFragment extends Fragment {
     private static final String TAG = "ContactWolfpackFragment" ;
+    private static final String CHANNEL_ID = "PICTURE_TAKEN_NOTIFICATION_CHANNEL";
     Button mBtnCall;
     Button mBtnEmail;
     Button mBtnCamera;
@@ -42,6 +48,9 @@ public class ContactWolfpackFragment extends Fragment {
     //Camera Variables
     private static final int REQUEST_TAKE_IMAGE = 1;
     private String mCurrentPhotoPath;
+
+    private NotificationCompat.Builder mBuilder;
+
 
 
     @Override
@@ -143,6 +152,8 @@ public class ContactWolfpackFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_IMAGE && resultCode == getActivity().RESULT_OK) {
             Toast.makeText(getActivity(), "Picture was successfully taken", Toast.LENGTH_SHORT).show();
             isPhotoTaken = true;
+            showNotification();
+
             if(isPhotoTaken && isNameWritten){
                 mBtnCall.setEnabled(true);
                 mBtnEmail.setEnabled(true);
@@ -168,4 +179,32 @@ public class ContactWolfpackFragment extends Fragment {
     private void updateViews(){
         mEditTextName.setText(text);
     }
+
+    //NOTIFICATION
+    public void setNotification(){
+        mBuilder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_smile)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Much longer text that cannot fit one line..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+    }
+
+    public void showNotification() {
+        setNotification();
+        if(mBuilder != null) {
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
+            notificationManagerCompat.notify(1, mBuilder.build());
+        } else {
+            Log.e(TAG, "mBuilder is null");
+        }
+
+    }
+
+
+
+
+
 }

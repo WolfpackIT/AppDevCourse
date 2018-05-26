@@ -71,6 +71,17 @@ public class ShoutFragment extends Fragment implements ExampleAdapter.OnItemClic
 
                             mExampleAdapter = new ExampleAdapter(getActivity(), mExampleList);
                             mRecyclerView.setAdapter(mExampleAdapter);
+
+                            mExampleAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position) {
+                                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+                                    ShoutItem clickedItem = mExampleList.get(position);
+
+                                    detailIntent.putExtra(EXTRA_SHOUTS, clickedItem.getmShoutName());
+                                    startActivity(detailIntent);
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
