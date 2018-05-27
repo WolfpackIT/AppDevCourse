@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+		// Nice approach
+		// Maybe move the setClickable()'s inside
+		// the disableButtons() method
         disableButtons();
         btnEmail.setClickable(false);
         btnCall.setClickable(false);
@@ -102,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!nameInput.isEmpty() && isPhotoTaken) {
                     activateButtons();
+					// Same thing here
+					// You could just move the
+					// setClickable inside the
+					// activateButtons method I guess
                     btnCall.setClickable(true);
                     btnEmail.setClickable(true);
                 }
@@ -166,6 +173,14 @@ public class MainActivity extends AppCompatActivity {
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
+					// As far as I know you need camera permissions
+					// for starting the camere app using e.g.
+					// ActivityCompat.requestPermissions(this,
+					// new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE },
+					// PERMISSIONS_MULTIPLE_REQUEST);
+					// External storage is included in these permissions
+					// You might as well ask for that as well since
+					// on succesful activity result you're gonna need it
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }
             } catch (Exception ex) {
