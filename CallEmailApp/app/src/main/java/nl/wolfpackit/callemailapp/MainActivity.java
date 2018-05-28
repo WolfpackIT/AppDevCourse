@@ -103,11 +103,13 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+		// Can be replaced by
+		// return !textfieldContent.matches("")
     }
 
     public void openEmailActivity(View view) {
         Intent intent = new Intent(this, EmailWPActivity.class);
-        intent.putExtra("imagePath", currentPhotoPath);
+        intent.putExtra("imagePath", currewntPhotoPath);
         startActivity(intent);
     }
 
@@ -119,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         String imageFileName = "Wolfpack";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+		// Here you write to external storage
+		// and you need external storage write
+		// permission for this, e.g.
+		// ActivityCompat.requestPermissions(this,
+        //         new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
+        //         PERMISSIONS_MULTIPLE_REQUEST);
         File image = File.createTempFile(
                 imageFileName,
                 ".jpg",
