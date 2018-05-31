@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Assignment1</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="contact_wolfpack">Contact Wolfpack</string>
+    <string name="shouts">Shouts</string>
+    <string name="geofence">Geofencing</string>
+    <string name="set_fence">Set Fence</string>
+    <string name="get_location">Get Location</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>

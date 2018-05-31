@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.assignment1.MainActivity">
+    <item
+        android:id="@+id/get_location"
+        android:color="@color/colorPrimaryDark"
+        android:orderInCategory="100"
+        android:title="@string/get_location"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/set_fence"
+        android:orderInCategory="101"
+        android:title="@string/set_fence"
+        app:showAsAction="never" />
+</menu>
