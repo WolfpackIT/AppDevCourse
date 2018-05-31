@@ -2,6 +2,7 @@ package com.example.assignment1;
 
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,22 +11,30 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +46,11 @@ import com.google.android.gms.tasks.Task;
 public class GeoFencingFragment extends Fragment {
     public static final String TAG = "GeoFencingFragment";
     private Toolbar toolbar;
+    private NotificationManagerCompat notificationManager;
 
+    public static final int REQUEST_CHECK_SETTINGS = 1;
+
+    //Create location services client
     private FusedLocationProviderClient mFusedLocationClient;
 
     @Nullable
@@ -50,23 +63,9 @@ public class GeoFencingFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        createLocationRequest();
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        //Getting Latitude
-                        Double lag = location.getLatitude();
-                        Log.d(TAG, lag.toString());
-                    }
-                    else {
-                        Log.d(TAG, "Location is NULL");
-                    }
-                }
-            });
-        }
+
 
         return view;
     }
@@ -76,6 +75,97 @@ public class GeoFencingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+        notificationManager = NotificationManagerCompat.from(getActivity());
+
+        getDeviceChangeLocation();
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main2, menu);
+    }
+
+    //SETTING UP THE ACTION HANDLERS IN APPBAR
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.get_fence:
+                    getDeviceLocation();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //CREATE NOTIFICATION FOR GET FENCE
+    public void sendOnChannelGetFence(Double longt, Double lau) {
+
+        String title = "Get Fence";
+        String message = "Longtiude: " + longt.toString() + " , " + "Lautide: " + lau.toString();
+
+        Notification notification = new NotificationCompat.Builder(getActivity(), App.CHANNEL_GET_FENCE)
+                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
+    //Set up a location request
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(2000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+    }
+
+    //GET THE DEVICE'S LOCATION
+    private void getDeviceLocation() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        try {
+            Task location = mFusedLocationClient.getLastLocation();
+            location.addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: found location!");
+
+                    } else {
+                        Log.d(TAG, "onComplete: current location is null");
+                        Toast.makeText(getActivity(), "Unable to get current location!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            location.addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        sendOnChannelGetFence(location.getLongitude(), location.getLatitude());
+                    }
+                }
+            });
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: SecurityException" + e.getMessage());
+        }
+    }
+
+    //GET DEVICE CHANGE LOCATION SETTINGS
+    private void getDeviceChangeLocation() {
+
+        createLocationRequest();
+
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
 
         SettingsClient client = LocationServices.getSettingsClient(getActivity());
@@ -84,13 +174,12 @@ public class GeoFencingFragment extends Fragment {
         task.addOnSuccessListener(getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                // All location settings are satisfied. The client can initialize
-                // location requests here.
-                // ...
+                locationSettingsResponse.getLocationSettingsStates();
+                Log.d(TAG, locationSettingsResponse.getLocationSettingsStates().toString());
             }
         });
 
-        task.addOnFailureListener(this, new OnFailureListener() {
+        task.addOnFailureListener(getActivity(), new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof ResolvableApiException) {
@@ -102,27 +191,10 @@ public class GeoFencingFragment extends Fragment {
                         ResolvableApiException resolvable = (ResolvableApiException) e;
                         resolvable.startResolutionForResult(getActivity(), REQUEST_CHECK_SETTINGS);
                     } catch (IntentSender.SendIntentException sendEx) {
-                        // Ignore the error.
+                        Log.e(TAG, e.getMessage());
                     }
                 }
             }
         });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main2, menu);
-    }
-
-    protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-
-
     }
 }
