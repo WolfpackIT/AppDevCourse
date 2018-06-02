@@ -61,7 +61,14 @@ public class SendSlackMessage implements Runnable {
     }
 
     private boolean availableInternetConnection() {
-        //TODO: Implement method
+		//TODO: Implement method
+		
+		// As far as I know, the default value of
+		// null that will be returned by this method
+		// will be interpreted as false.
+		// But you would've seen this during tests.
+		// I guess you put a return true here during tests?
+		// In any case, it still has to be implemented.
     }
 
 
