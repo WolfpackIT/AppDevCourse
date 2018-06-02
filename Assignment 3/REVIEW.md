@@ -15,7 +15,8 @@ app with the following requirements:
 * (7) Use the debugger to place breakpoints when testing the app. play around with it!
 * (8) Don't forget the appropriate permiissions
 
-The overall structure is good. However, the use of comments
+The overall structure is good. As far as I can tell, all points
+except (8) have been met. However, the use of comments
 did not increase. I would like to see comments being used more,
 especially in something `OldMainActivity.java`.
 
