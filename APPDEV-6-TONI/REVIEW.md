@@ -36,3 +36,10 @@ I've not seen being properly used:
 As far as I can tell, no toast will be displayed upon success or error
 of the shout api POST call. I see the Toast class import, so perhaps
 you just forgot?
+
+#### Structure (+)
+I like the clear structure of the shout part of this assignment.
+You have a ReycyclerView with a different class for each list item,
+which makes it very easy to follow. The API call code in ShoutFragment
+is also nicely separated and clear. The only thing I'd change is add some
+comments to that part (ShoutFragment).
