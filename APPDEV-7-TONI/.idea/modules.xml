@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/APPDEV-7-TONI.iml" filepath="$PROJECT_DIR$/APPDEV-7-TONI.iml" />
-      <module fileurl="file://C:\Users\Wolfpack\Desktop\AppDevCourse\APPDEV-7-TONI\APPDEV-7-TONI.iml" filepath="C:\Users\Wolfpack\Desktop\AppDevCourse\APPDEV-7-TONI\APPDEV-7-TONI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Wolfpack\Desktop\AppDevCourse\APPDEV-7-TONI\app\app.iml" filepath="C:\Users\Wolfpack\Desktop\AppDevCourse\APPDEV-7-TONI\app\app.iml" />
     </modules>
   </component>
 </project>

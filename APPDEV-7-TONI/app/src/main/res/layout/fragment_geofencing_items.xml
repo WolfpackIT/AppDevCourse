@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="72dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="40dp"
@@ -20,24 +20,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/lauti_text_view"
-                android:text="Latitude: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:text="Latitude: "
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/long_text_view"
-                android:text="Longitude: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:textAlignment="viewStart"
                 android:maxLines="1"
+                android:text="Longitude: "
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
         </LinearLayout>
 

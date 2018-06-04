@@ -3,6 +3,7 @@ package com.example.assignment1;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Starting");
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        String menuFragment = getIntent().getStringExtra("menuFragment");
+
 
         //Set up the Viewpager with the section adapter
         mViewPager = (ViewPager) findViewById(R.id.container);
