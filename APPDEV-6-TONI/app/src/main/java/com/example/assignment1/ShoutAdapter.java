@@ -46,6 +46,9 @@ public class ShoutAdapter extends RecyclerView.Adapter<ShoutAdapter.ShoutViewHol
     }
 
     public ShoutAdapter(ArrayList<ShoutItem> shoutItem) {
+		// shoutItem is a confusing name,
+		// use plural if you're dealing with
+		// (Array)Lists
         this.mShoutItems = shoutItem;
     }
 
