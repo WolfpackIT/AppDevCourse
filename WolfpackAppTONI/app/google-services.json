@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "578574976779",
+    "firebase_url": "https://wolfpackapp-f09f5.firebaseio.com",
+    "project_id": "wolfpackapp-f09f5",
+    "storage_bucket": "wolfpackapp-f09f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578574976779:android:ef8cdb3427fde894",
+        "android_client_info": {
+          "package_name": "com.toni.wolfpackapp_toni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578574976779-okj4srgshdgu5ussv3o0plud9m58jopt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toni.wolfpackapp_toni",
+            "certificate_hash": "aeef25f07bc9d6d3b42f1e1f81743f60413c9219"
+          }
+        },
+        {
+          "client_id": "578574976779-175jba5qletpkodtsos32m15h9ma7ug5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "578574976779-175jba5qletpkodtsos32m15h9ma7ug5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC-meoEqd37e-iC4lKQNcV0VaIplGHzf4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578574976779-175jba5qletpkodtsos32m15h9ma7ug5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
