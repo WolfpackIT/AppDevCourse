@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.assignment1.MainActivity">
     <item
-        android:id="@+id/get_location"
+        android:id="@+id/get_fence"
         android:color="@color/colorPrimaryDark"
         android:orderInCategory="100"
         android:title="@string/get_location"
