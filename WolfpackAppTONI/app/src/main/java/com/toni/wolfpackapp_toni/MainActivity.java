@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if (mAuth.getCurrentUser() != null) {
                                 finish();
-                                startActivity(new Intent(MainActivity.this, ProfileTestActivity.class));
+                                Log.d(TAG, "Started TransitionActivity");
+                                startActivity(new Intent(MainActivity.this, TransitionActivity.class));
                             }
 
                             Toast.makeText(MainActivity.this, "User signed in", Toast.LENGTH_SHORT).show();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wolfpack</string>
+
+    <string name="news">Niewus</string>
+    <string name="declarations">Declaraties</string>
+    <string name="order_food">Eten bestellen</string>
+    <string name="wolves">De wolven</string>
+    <string name="wiki">Wiki</string>
+
+    <string name="news_frag">Nieuwsfragment</string>
+</resources>

@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileTestActivity"></activity>
+        <activity android:name=".ProfileTestActivity" />
+        <activity android:name=".TransitionActivity" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="news">News</string>
+    <string name="declarations">Declarations</string>
+    <string name="order_food">Order Food</string>
+    <string name="wolves">The Wolves</string>
+    <string name="wiki">Wiki</string>
+
+    <string name="news_frag">News Fragment</string>
+</resources>
