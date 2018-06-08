@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">WolfpackApp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_client_id">440816605722-046icakls4k8q83i9brllfrvf2utd9bj.apps.googleusercontent.com</string>
+    <string name="home_text">Startpagina</string>
+    <string name="declarations_text">Declaraties</string>
+    <string name="order_food_text">Eten bestellen</string>
+    <string name="wiki_text">Wiki</string>
+    <string name="user_profile_text">Gebruikersprofiel</string>
+    <string name="header_subtitle">lalala</string>
+    <string name="header_title">LALALALA</string>
+    <string name="nav_header_description">Slider menu</string>
+    <string name="drawer_open">Open slider menu</string>
+    <string name="drawer_close">Close slider menu</string>
+    <string name="action_switch_language">Verander de taal</string>
+    <string name="action_signout">Uitloggen</string>
+    <string name="login_button_text">Inloggen</string>
+    <string name="name_string">Naam</string>
+    <string name="birthdate_string">Geboortedatum</string>
+    <string name="city_string">Stad</string>
+    <string name="phonenumber_string">Telefoonnummer</string>
+    <string name="allergies_string">Allergieen</string>
+    <string name="internet_permission_request">U moet ons toestemming geven om internet te gebruiken</string>
+    <string name="no_internet_app">Er is geen internet-app geïnstalleerd</string>
+    <string name="order_food_toast">Je kunt alleen eten bestellen op dinsdagen!</string>
+    <string name="auth_failed">Inloggen Mislukt.</string>
+</resources>
