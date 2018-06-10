@@ -118,7 +118,10 @@ public class ContactWolfpackFragment extends Fragment {
                             Uri photoURI = FileProvider.getUriForFile(getActivity(),
                                     "Android/data/com.example.kath.appdev5kath/files/Pictures",
                                     imageFile);
-                            imageI.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+							imageI.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+							
+							// You need to ask for permission
+							// to use the camera first.
                             startActivityForResult(imageI, REQUEST_TAKE_IMAGE);
                         }
                     } catch (Exception ex) {
@@ -138,7 +141,8 @@ public class ContactWolfpackFragment extends Fragment {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timestamp + "_";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
+		
+		// You need to ask for permission to write to external storage first.
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
         //Save a file: path for use with ACTION_VIEW intents
